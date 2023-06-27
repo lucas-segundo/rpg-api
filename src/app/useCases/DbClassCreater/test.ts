@@ -8,7 +8,7 @@ import {
 } from 'app/interfaces/ClassCreaterRepo/mock'
 import { UnexpectedError } from 'domain/errors/UnexpectedError'
 import { Class } from 'domain/models/Class'
-import { mockClassCreaterParams } from 'domain/useCase/ClassCreater/mock'
+import { mockClassCreaterParams } from 'domain/useCases/ClassCreater/mock'
 import { DbClassCreater } from '.'
 
 const makeSut = () => {

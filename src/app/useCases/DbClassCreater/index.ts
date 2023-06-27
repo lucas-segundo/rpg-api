@@ -1,7 +1,7 @@
 import { ClassCreaterRepo } from 'app/interfaces/ClassCreaterRepo'
 import { UnexpectedError } from 'domain/errors/UnexpectedError'
 import { Class } from 'domain/models/Class'
-import { ClassCreater, ClassCreaterParams } from 'domain/useCase/ClassCreater'
+import { ClassCreater, ClassCreaterParams } from 'domain/useCases/ClassCreater'
 
 export class DbClassCreater implements ClassCreater {
   constructor(private readonly classCreaterRepo: ClassCreaterRepo) {}
