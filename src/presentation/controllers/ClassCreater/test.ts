@@ -15,6 +15,8 @@ const makeSut = () => {
   const validation = mockValidation()
   const sut = new ClassCreaterController(classCreater, validation)
 
+  validation.validate.mockReturnValue([])
+
   return {
     sut,
     classCreater,
@@ -77,5 +79,22 @@ describe('ClassCreaterController', () => {
     await sut.handle(params)
 
     expect(validation.validate).toBeCalledWith(validationParams)
+  })
+
+  it('should return http error if it has validations errors', async () => {
+    const { sut, validation } = makeSut()
+
+    const errorMessages = [faker.lorem.words()]
+    validation.validate.mockReturnValue(errorMessages)
+
+    const params = mockClassCreaterParams()
+    const result = await sut.handle(params)
+
+    const httpErrorResponse: HttpErrorResponse = {
+      errors: errorMessages,
+      statusCode: HttpStatusCode.BAD_REQUEST,
+    }
+
+    expect(result).toEqual(httpErrorResponse)
   })
 })

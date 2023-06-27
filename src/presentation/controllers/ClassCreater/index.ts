@@ -14,13 +14,20 @@ export class ClassCreaterController implements Controller {
   async handle(
     params: ClassCreaterParams
   ): Promise<HttpResponse<Class> | HttpErrorResponse> {
-    this.validateFields(params)
+    const errors = this.validateFields(params)
+
+    if (errors.length) {
+      return {
+        errors,
+        statusCode: HttpStatusCode.BAD_REQUEST,
+      }
+    }
 
     return await this.create(params)
   }
 
   validateFields({ title }: ClassCreaterParams) {
-    this.validation.validate({
+    return this.validation.validate({
       field: 'title',
       value: title,
     })
