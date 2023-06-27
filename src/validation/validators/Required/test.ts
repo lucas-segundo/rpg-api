@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker'
-import { RequiredValidationError } from 'validation/errors/required'
+import { RequiredValidationError } from 'validation/errors/Required'
 import { RequiredValidator } from '.'
 
 describe('RequiredValidator', () => {
@@ -18,6 +18,8 @@ describe('RequiredValidator', () => {
 
     const validator = new RequiredValidator(field)
 
-    expect(validator.validate(value)).toBeInstanceOf(RequiredValidationError)
+    expect(validator.validate(value)).toBe(
+      new RequiredValidationError().message
+    )
   })
 })

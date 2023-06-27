@@ -1,5 +1,6 @@
-import { ValidationError } from 'presentation/interfaces/Validation'
-
-export class RequiredValidationError implements ValidationError {
-  message = 'Campo obrigatório'
+export class RequiredValidationError extends Error {
+  constructor() {
+    super()
+    this.message = 'Campo obrigatório'
+  }
 }

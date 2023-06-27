@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker'
-import { EmailValidationError } from 'validation/errors/email'
+import { EmailValidationError } from 'validation/errors/Email'
 import { EmailValidator } from '.'
 
 describe('EmailValidator', () => {
@@ -18,6 +18,6 @@ describe('EmailValidator', () => {
 
     const validator = new EmailValidator(field)
 
-    expect(validator.validate(value)).toBeInstanceOf(EmailValidationError)
+    expect(validator.validate(value)).toBe(new EmailValidationError().message)
   })
 })

@@ -1,10 +1,5 @@
-import { faker } from '@faker-js/faker'
-import { Validation, ValidationError } from '.'
+import { Validation } from '.'
 
 export const mockValidation = (): jest.Mocked<Validation> => ({
   validate: jest.fn(),
-})
-
-export const mockValidationError = (): ValidationError => ({
-  message: faker.lorem.words(),
 })

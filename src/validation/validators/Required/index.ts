@@ -1,5 +1,4 @@
-import { ValidationError } from 'presentation/interfaces/Validation'
-import { RequiredValidationError } from 'validation/errors/required'
+import { RequiredValidationError } from 'validation/errors/Required'
 import { Validator } from 'validation/interfaces/Validator'
 
 export class RequiredValidator implements Validator {
@@ -7,7 +6,7 @@ export class RequiredValidator implements Validator {
 
   constructor(readonly field: string) {}
 
-  validate(value: string): ValidationError | null {
-    return value ? null : this.error
+  validate(value: string): string | null {
+    return value ? null : this.error.message
   }
 }

@@ -1,6 +1,5 @@
 import {
   Validation,
-  ValidationError,
   ValidationParams,
 } from 'presentation/interfaces/Validation'
 import { Validator } from 'validation/interfaces/Validator'
@@ -12,7 +11,7 @@ export class ValidationComposite implements Validation {
     return new ValidationComposite(validators)
   }
 
-  validate({ field, value }: ValidationParams): ValidationError[] | [] {
+  validate({ field, value }: ValidationParams): string[] | [] {
     const fieldValidators = this.validators.filter(
       (validator) => validator.field === field
     )
@@ -21,7 +20,7 @@ export class ValidationComposite implements Validation {
       validator.validate(value)
     )
 
-    const errors: ValidationError[] = []
+    const errors: string[] = []
     validationResult.forEach((result) => {
       if (result) {
         errors.push(result)

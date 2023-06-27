@@ -38,7 +38,7 @@ describe('ValidationComposite', () => {
       value: '',
     })
 
-    const errors = validators.map((validator) => validator.error)
+    const errors = validators.map((validator) => validator.error.message)
     expect(validationResult).toEqual(errors)
   })
 })

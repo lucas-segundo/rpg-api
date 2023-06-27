@@ -56,7 +56,7 @@ describe('ClassCreaterController', () => {
     classCreater.create.mockRejectedValue(error)
 
     const httpErrorResponse: HttpErrorResponse = {
-      errors: [error],
+      errors: [error.message],
       statusCode: HttpStatusCode.INTERNAL_SERVER_ERROR,
     }
 

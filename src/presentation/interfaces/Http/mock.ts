@@ -8,6 +8,6 @@ export const mockHttpResponse = (): jest.Mocked<HttpResponse> => ({
 })
 
 export const mockHttpErrorResponse = (): jest.Mocked<HttpErrorResponse> => ({
-  errors: [new Error(), new Error()],
+  errors: [faker.lorem.words(), faker.lorem.words()],
   statusCode: HttpStatusCode.OK,
 })

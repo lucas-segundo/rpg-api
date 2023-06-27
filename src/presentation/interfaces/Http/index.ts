@@ -6,6 +6,6 @@ export interface HttpResponse<Data = any> {
 }
 
 export type HttpErrorResponse = {
-  errors: Error[]
+  errors: string[]
   statusCode: HttpStatusCode
 }

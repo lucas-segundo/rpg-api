@@ -16,7 +16,7 @@ export class ClassCreaterController implements Controller {
   ): Promise<HttpResponse<Class> | HttpErrorResponse> {
     this.validateFields(params)
 
-    return this.create(params)
+    return await this.create(params)
   }
 
   validateFields({ title }: ClassCreaterParams) {
@@ -36,7 +36,7 @@ export class ClassCreaterController implements Controller {
       }
     } catch (error) {
       return {
-        errors: [error],
+        errors: [error.message],
         statusCode: HttpStatusCode.INTERNAL_SERVER_ERROR,
       }
     }
