@@ -6,15 +6,19 @@ import {
 } from 'domain/useCase/ClassCreater/mock'
 import { HttpStatusCode } from 'presentation/enum/HttpStatusCode'
 import { HttpErrorResponse, HttpResponse } from 'presentation/interfaces/Http'
+import { ValidationParams } from 'presentation/interfaces/Validation'
+import { mockValidation } from 'presentation/interfaces/Validation/mock'
 import { ClassCreaterController } from '.'
 
 const makeSut = () => {
   const classCreater = mockClassCreater()
-  const sut = new ClassCreaterController(classCreater)
+  const validation = mockValidation()
+  const sut = new ClassCreaterController(classCreater, validation)
 
   return {
     sut,
     classCreater,
+    validation,
   }
 }
 
@@ -59,5 +63,19 @@ describe('ClassCreaterController', () => {
     const result = await sut.handle(mockClassCreaterParams())
 
     expect(result).toEqual(httpErrorResponse)
+  })
+
+  it('should call validation with right params', async () => {
+    const { sut, validation } = makeSut()
+    const params = mockClassCreaterParams()
+
+    const validationParams: ValidationParams = {
+      field: 'title',
+      value: params.title,
+    }
+
+    await sut.handle(params)
+
+    expect(validation.validate).toBeCalledWith(validationParams)
   })
 })
