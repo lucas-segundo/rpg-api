@@ -6,6 +6,7 @@ import {
   mockClassCreaterRepo,
   mockClassCreaterRepoResult,
 } from 'app/interfaces/ClassCreaterRepo/mock'
+import { UnexpectedError } from 'domain/errors/UnexpectedError'
 import { Class } from 'domain/models/Class'
 import { mockClassCreaterParams } from 'domain/useCase/ClassCreater/mock'
 import { DbClassCreater } from '.'
@@ -45,5 +46,14 @@ describe('DbClassCreater', () => {
     const expectedClass: Class = repoResult
 
     expect(classCreated).toEqual(expectedClass)
+  })
+
+  it('should throw unexpected error if something failed', async () => {
+    const { sut, repo } = makeSut()
+
+    repo.create.mockRejectedValue(new Error())
+
+    const promise = sut.create(mockClassCreaterParams())
+    await expect(promise).rejects.toBeInstanceOf(UnexpectedError)
   })
 })
