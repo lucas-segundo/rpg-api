@@ -1,19 +1,13 @@
-import { faker } from '@faker-js/faker'
 import { mockClassCreaterParams } from 'domain/useCases/ClassCreater/mock'
 import { prismaMock } from 'infra/prisma/mock'
+import { mockDbClass } from 'infra/prisma/mocks/class'
 import { PrismaClassCreaterRepo } from '.'
 
 describe('PrismaClassCreaterRepo', () => {
   it('should call create with right params', async () => {
     const sut = new PrismaClassCreaterRepo()
 
-    prismaMock.class.create.mockResolvedValue({
-      id: faker.number.int(),
-      title: faker.lorem.word(),
-      createdAt: faker.date.anytime(),
-      updatedAt: faker.date.anytime(),
-      deletedAt: null,
-    })
+    prismaMock.class.create.mockResolvedValue(mockDbClass())
 
     const params = mockClassCreaterParams()
     await sut.create(params)
