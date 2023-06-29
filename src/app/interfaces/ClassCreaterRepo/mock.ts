@@ -6,6 +6,6 @@ export const mockClassCreaterRepo = (): jest.Mocked<ClassCreaterRepo> => ({
 })
 
 export const mockClassCreaterRepoResult = (): ClassCreaterRepoResult => ({
-  id: faker.string.uuid(),
+  id: faker.number.int(),
   title: faker.lorem.words(),
 })

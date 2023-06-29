@@ -30,7 +30,7 @@ describe('PrismaClassCreaterRepo', () => {
     const result = await sut.create(params)
 
     const expectedResult: ClassCreaterRepoResult = {
-      id: dbClassCreated.id.toString(),
+      id: dbClassCreated.id,
       title: params.title,
     }
     expect(result).toEqual(expectedResult)

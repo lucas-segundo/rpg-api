@@ -17,7 +17,7 @@ export class PrismaClassCreaterRepo implements ClassCreaterRepo {
     })
 
     return {
-      id: id.toString(),
+      id,
       title,
     }
   }

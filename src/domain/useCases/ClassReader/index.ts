@@ -1,7 +1,7 @@
 import { Class } from 'domain/models/Class'
 
 export interface ClassReaderParams {
-  id: string
+  id: number
 }
 
 export interface ClassReader {

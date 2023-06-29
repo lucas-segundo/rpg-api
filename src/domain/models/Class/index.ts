@@ -1,4 +1,4 @@
 export interface Class {
-  id: string
+  id: number
   title: string
 }
