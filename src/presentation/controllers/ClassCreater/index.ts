@@ -7,8 +7,8 @@ import { Validation } from 'presentation/interfaces/Validation'
 
 export class ClassCreaterController implements Controller {
   constructor(
-    readonly classCreater: ClassCreater,
-    readonly validation: Validation
+    private readonly classCreater: ClassCreater,
+    private readonly validation: Validation
   ) {}
 
   async handle(
