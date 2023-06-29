@@ -5,5 +5,5 @@ export interface ClassReaderParams {
 }
 
 export interface ClassReader {
-  read(params: ClassReader): Promise<Class>
+  read(params: ClassReaderParams): Promise<Class>
 }
