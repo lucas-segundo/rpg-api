@@ -29,6 +29,7 @@
   "dependencies": {
     "@nestjs/common": "^9.0.0",
     "@nestjs/core": "^9.0.0",
+    "@nestjs/mapped-types": "*",
     "@nestjs/platform-express": "^9.0.0",
     "@prisma/client": "4.16.1",
     "reflect-metadata": "^0.1.13",
@@ -36,6 +37,7 @@
   },
   "devDependencies": {
     "@faker-js/faker": "^8.0.2",
+    "@golevelup/ts-jest": "^0.3.7",
     "@nestjs/cli": "^9.0.0",
     "@nestjs/schematics": "^9.0.0",
     "@nestjs/testing": "^9.0.0",
@@ -82,7 +84,9 @@
     ],
     "coverageDirectory": "../coverage",
     "testEnvironment": "node",
-    "setupFilesAfterEnv": ["<rootDir>/infra/prisma/mock.ts"]
+    "setupFilesAfterEnv": [
+      "<rootDir>/infra/prisma/mock.ts"
+    ]
   },
   "prisma": {
     "schema": "src/infra/prisma/schema.prisma"
