@@ -1,14 +1,13 @@
-import { ClassCreaterRepoResult } from 'app/interfaces/ClassCreaterRepo'
+import { mockClassRepo } from 'app/models/ClassRepo/mock'
 import { mockClassCreaterParams } from 'domain/useCases/ClassCreater/mock'
 import { prismaMock } from 'infra/prisma/mock'
-import { mockDbClass } from 'infra/prisma/mocks/class'
 import { PrismaClassCreaterRepo } from '.'
 
 describe('PrismaClassCreaterRepo', () => {
   it('should call create with right params', async () => {
     const sut = new PrismaClassCreaterRepo()
 
-    prismaMock.class.create.mockResolvedValue(mockDbClass())
+    prismaMock.class.create.mockResolvedValue(mockClassRepo())
 
     const params = mockClassCreaterParams()
     await sut.create(params)
@@ -23,16 +22,12 @@ describe('PrismaClassCreaterRepo', () => {
   it('should return class created', async () => {
     const sut = new PrismaClassCreaterRepo()
 
-    const dbClassCreated = mockDbClass()
+    const dbClassCreated = mockClassRepo()
     prismaMock.class.create.mockResolvedValue(dbClassCreated)
 
     const params = mockClassCreaterParams()
     const result = await sut.create(params)
 
-    const expectedResult: ClassCreaterRepoResult = {
-      id: dbClassCreated.id,
-      title: params.title,
-    }
-    expect(result).toEqual(expectedResult)
+    expect(result).toEqual(dbClassCreated)
   })
 })

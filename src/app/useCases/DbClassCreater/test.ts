@@ -1,11 +1,7 @@
-import {
-  ClassCreaterRepoParams,
-  ClassCreaterRepoResult,
-} from 'app/interfaces/ClassCreaterRepo'
-import {
-  mockClassCreaterRepo,
-  mockClassCreaterRepoResult,
-} from 'app/interfaces/ClassCreaterRepo/mock'
+import { ClassCreaterRepoParams } from 'app/interfaces/ClassCreaterRepo'
+import { mockClassCreaterRepo } from 'app/interfaces/ClassCreaterRepo/mock'
+import { ClassRepo } from 'app/models/ClassRepo'
+import { mockClassRepo } from 'app/models/ClassRepo/mock'
 import { UnexpectedError } from 'domain/errors/UnexpectedError'
 import { Class } from 'domain/models/Class'
 import { mockClassCreaterParams } from 'domain/useCases/ClassCreater/mock'
@@ -38,7 +34,7 @@ describe('DbClassCreater', () => {
   it('should return class created', async () => {
     const { sut, repo } = makeSut()
 
-    const repoResult: ClassCreaterRepoResult = mockClassCreaterRepoResult()
+    const repoResult: ClassRepo = mockClassRepo()
     repo.create.mockResolvedValue(repoResult)
 
     const classCreated = await sut.create(mockClassCreaterParams())

@@ -1,24 +1,19 @@
 import {
   ClassCreaterRepo,
   ClassCreaterRepoParams,
-  ClassCreaterRepoResult,
 } from 'app/interfaces/ClassCreaterRepo'
+import { ClassRepo } from 'app/models/ClassRepo'
 
 import prisma from 'infra/prisma'
 
 export class PrismaClassCreaterRepo implements ClassCreaterRepo {
-  async create({
-    title,
-  }: ClassCreaterRepoParams): Promise<ClassCreaterRepoResult> {
-    const { id } = await prisma.class.create({
+  async create({ title }: ClassCreaterRepoParams): Promise<ClassRepo> {
+    const result = await prisma.class.create({
       data: {
         title,
       },
     })
 
-    return {
-      id,
-      title,
-    }
+    return result
   }
 }

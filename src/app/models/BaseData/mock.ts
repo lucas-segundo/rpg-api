@@ -1,8 +1,7 @@
 import { faker } from '@faker-js/faker'
+import { BaseData } from '.'
 
-export const mockDbClass = () => ({
-  id: faker.number.int(),
-  title: faker.lorem.word(),
+export const mockBaseData = (): BaseData => ({
   createdAt: faker.date.anytime(),
   updatedAt: faker.date.anytime(),
   deletedAt: null,
