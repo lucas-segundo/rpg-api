@@ -5,5 +5,5 @@ export interface ClassReaderRepoParams {
 }
 
 export interface ClassReaderRepo {
-  read(params: ClassReaderRepoParams): Promise<ClassRepo>
+  read(params: ClassReaderRepoParams): Promise<ClassRepo | null>
 }
