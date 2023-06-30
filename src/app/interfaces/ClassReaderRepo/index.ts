@@ -1,11 +1,9 @@
-import { Class } from 'domain/models/Class'
-
-export interface ClassReaderRepoResult extends Class {}
+import { ClassRepo } from 'app/models/ClassRepo'
 
 export interface ClassReaderRepoParams {
   id: number
 }
 
 export interface ClassReaderRepo {
-  read(params: ClassReaderRepoParams): Promise<ClassReaderRepoResult>
+  read(params: ClassReaderRepoParams): Promise<ClassRepo>
 }

@@ -1,11 +1,6 @@
-import {
-  ClassReaderRepoParams,
-  ClassReaderRepoResult,
-} from 'app/interfaces/ClassReaderRepo'
-import {
-  mockClassReaderRepo,
-  mockClassReaderRepoResult,
-} from 'app/interfaces/ClassReaderRepo/mock'
+import { ClassReaderRepoParams } from 'app/interfaces/ClassReaderRepo'
+import { mockClassReaderRepo } from 'app/interfaces/ClassReaderRepo/mock'
+import { mockClassRepo } from 'app/models/ClassRepo/mock'
 import { UnexpectedError } from 'domain/errors/UnexpectedError'
 import { Class } from 'domain/models/Class'
 import { mockClassReaderParams } from 'domain/useCases/ClassReader/mock'
@@ -38,7 +33,7 @@ describe('DbClassReader', () => {
   it('should return class', async () => {
     const { sut, repo } = makeSut()
 
-    const repoResult: ClassReaderRepoResult = mockClassReaderRepoResult()
+    const repoResult = mockClassRepo()
     repo.read.mockResolvedValue(repoResult)
 
     const classReaded = await sut.read(mockClassReaderParams())
