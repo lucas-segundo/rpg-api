@@ -14,10 +14,17 @@ export class ClassReaderController implements Controller {
   async handle(
     params: ClassReaderParams
   ): Promise<HttpResponse<Class | null> | HttpErrorResponse> {
-    this.validation.validate({
+    const errors = this.validation.validate({
       field: 'id',
       value: params.id,
     })
+
+    if (errors.length) {
+      return {
+        errors,
+        statusCode: HttpStatusCode.BAD_REQUEST,
+      }
+    }
 
     return await this.read(params)
   }
