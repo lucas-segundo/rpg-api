@@ -10,11 +10,18 @@ export class ClassReaderController implements Controller {
   async handle(
     params: ClassReaderParams
   ): Promise<HttpResponse<Class | null> | HttpErrorResponse> {
-    const data = await this.classReader.read(params)
+    try {
+      const data = await this.classReader.read(params)
 
-    return {
-      data,
-      statusCode: HttpStatusCode.OK,
+      return {
+        data,
+        statusCode: HttpStatusCode.OK,
+      }
+    } catch (error) {
+      return {
+        errors: [error.message],
+        statusCode: HttpStatusCode.INTERNAL_SERVER_ERROR,
+      }
     }
   }
 }

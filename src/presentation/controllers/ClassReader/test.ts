@@ -1,10 +1,11 @@
+import { faker } from '@faker-js/faker'
 import { mockClass } from 'domain/models/Class/mock'
 import {
   mockClassReader,
   mockClassReaderParams,
 } from 'domain/useCases/ClassReader/mock'
 import { HttpStatusCode } from 'presentation/enum/HttpStatusCode'
-import { HttpResponse } from 'presentation/interfaces/Http'
+import { HttpErrorResponse, HttpResponse } from 'presentation/interfaces/Http'
 import { ClassReaderController } from '.'
 
 const makeSut = () => {
@@ -43,5 +44,21 @@ describe('ClassReaderController', () => {
     const result = await sut.handle(params)
 
     expect(result).toEqual(httpResponse)
+  })
+
+  it('should return http error if something failed', async () => {
+    const { sut, classReader } = makeSut()
+
+    const error = new Error(faker.lorem.words())
+    classReader.read.mockRejectedValue(error)
+
+    const httpErrorResponse: HttpErrorResponse = {
+      errors: [error.message],
+      statusCode: HttpStatusCode.INTERNAL_SERVER_ERROR,
+    }
+
+    const result = await sut.handle(mockClassReaderParams())
+
+    expect(result).toEqual(httpErrorResponse)
   })
 })
