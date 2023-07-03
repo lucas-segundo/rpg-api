@@ -6,7 +6,7 @@ export class RequiredValidator implements Validator {
 
   constructor(readonly field: string) {}
 
-  validate(value: string): string | null {
+  validate(value: string | number): string | null {
     return value ? null : this.error.message
   }
 }
