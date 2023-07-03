@@ -94,4 +94,21 @@ describe('ClassController', () => {
     expect(res.status).toBeCalledWith(result.statusCode)
     expect(res.send).toBeCalledWith({ data: result.data })
   })
+
+  it('should response with right errors after reading one fails', async () => {
+    const handleMocked = jest.spyOn(classReaderController, 'handle')
+    const result: HttpErrorResponse = {
+      errors: [faker.lorem.words()],
+      statusCode: faker.internet.httpStatusCode({
+        types: ['serverError', 'clientError'],
+      }),
+    }
+    handleMocked.mockResolvedValueOnce(result)
+
+    const res = mockExpressResponse()
+    await controller.readOne(mockClassReaderParams().id, res)
+
+    expect(res.status).toBeCalledWith(result.statusCode)
+    expect(res.send).toBeCalledWith({ errors: result.errors })
+  })
 })
