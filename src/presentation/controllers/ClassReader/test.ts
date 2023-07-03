@@ -6,22 +6,25 @@ import {
 } from 'domain/useCases/ClassReader/mock'
 import { HttpStatusCode } from 'presentation/enum/HttpStatusCode'
 import { HttpErrorResponse, HttpResponse } from 'presentation/interfaces/Http'
+import { ValidationParams } from 'presentation/interfaces/Validation'
+import { mockValidation } from 'presentation/interfaces/Validation/mock'
 import { ClassReaderController } from '.'
 
 const makeSut = () => {
   const classReader = mockClassReader()
-  const sut = new ClassReaderController(classReader)
+  const validation = mockValidation()
+  const sut = new ClassReaderController(classReader, validation)
 
   return {
     classReader,
     sut,
+    validation,
   }
 }
 
 describe('ClassReaderController', () => {
   it('should call class reader with right params', async () => {
-    const classReader = mockClassReader()
-    const sut = new ClassReaderController(classReader)
+    const { sut, classReader } = makeSut()
 
     const params = mockClassReaderParams()
     await sut.handle(params)
@@ -60,5 +63,19 @@ describe('ClassReaderController', () => {
     const result = await sut.handle(mockClassReaderParams())
 
     expect(result).toEqual(httpErrorResponse)
+  })
+
+  it('should call validation with right params', async () => {
+    const { sut, validation } = makeSut()
+    const params = mockClassReaderParams()
+
+    const validationParams: ValidationParams = {
+      field: 'id',
+      value: params.id,
+    }
+
+    await sut.handle(params)
+
+    expect(validation.validate).toBeCalledWith(validationParams)
   })
 })
