@@ -15,7 +15,7 @@ export class ClassController {
 
   @Post()
   async create(@Body() createClassDto: CreateClassDto, @Res() res: Response) {
-    const result = await this.classCreaterController.create(createClassDto)
+    const result = await this.classCreaterController.handle(createClassDto)
 
     return handleResponse(res, result)
   }

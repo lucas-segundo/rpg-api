@@ -30,44 +30,42 @@ describe('ClassController', () => {
     expect(controller).toBeDefined()
   })
 
-  it('should call create with right params', async () => {
+  it('should handle create with right params', async () => {
     const params = mockClassCreaterParams()
-    const createMocked = jest.spyOn(classCreaterController, 'create')
+    const handleMocked = jest.spyOn(classCreaterController, 'handle')
 
     await controller.create(params, mockExpressResponse())
 
-    expect(createMocked).toBeCalledWith(params)
+    expect(handleMocked).toBeCalledWith(params)
   })
 
   it('should response with right data after creation', async () => {
-    const createMocked = jest.spyOn(classCreaterController, 'create')
+    const handleMocked = jest.spyOn(classCreaterController, 'handle')
     const result: HttpResponse = {
       data: mockClass(),
       statusCode: HttpStatusCode.CREATED,
     }
-    createMocked.mockResolvedValueOnce(result)
+    handleMocked.mockResolvedValueOnce(result)
 
     const res = mockExpressResponse()
-    const params = mockClassCreaterParams()
-    await controller.create(params, res)
+    await controller.create(mockClassCreaterParams(), res)
 
     expect(res.status).toBeCalledWith(result.statusCode)
     expect(res.send).toBeCalledWith({ data: result.data })
   })
 
   it('should response with right errors after creation fails', async () => {
-    const createMocked = jest.spyOn(classCreaterController, 'create')
+    const handleMocked = jest.spyOn(classCreaterController, 'handle')
     const result: HttpErrorResponse = {
       errors: [faker.lorem.words()],
       statusCode: faker.internet.httpStatusCode({
         types: ['serverError', 'clientError'],
       }),
     }
-    createMocked.mockResolvedValueOnce(result)
+    handleMocked.mockResolvedValueOnce(result)
 
     const res = mockExpressResponse()
-    const params = mockClassCreaterParams()
-    await controller.create(params, res)
+    await controller.create(mockClassCreaterParams(), res)
 
     expect(res.status).toBeCalledWith(result.statusCode)
     expect(res.send).toBeCalledWith({ errors: result.errors })
@@ -75,10 +73,10 @@ describe('ClassController', () => {
 
   it('should call read with right params', async () => {
     const params = mockClassReaderParams()
-    const readMocked = jest.spyOn(classReaderController, 'read')
+    const handleMocked = jest.spyOn(classReaderController, 'handle')
 
     await controller.readOne(params.id, mockExpressResponse())
 
-    expect(readMocked).toBeCalledWith(params)
+    expect(handleMocked).toBeCalledWith(params)
   })
 })

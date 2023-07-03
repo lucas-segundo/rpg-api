@@ -33,7 +33,7 @@ export class ClassCreaterController implements Controller {
     })
   }
 
-  async create(params: ClassCreaterParams) {
+  private async create(params: ClassCreaterParams) {
     try {
       const classCreated = await this.classCreater.create(params)
 

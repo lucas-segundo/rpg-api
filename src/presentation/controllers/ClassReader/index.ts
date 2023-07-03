@@ -29,7 +29,7 @@ export class ClassReaderController implements Controller {
     return await this.read(params)
   }
 
-  async read(params: ClassReaderParams) {
+  private async read(params: ClassReaderParams) {
     try {
       const data = await this.classReader.read(params)
 
