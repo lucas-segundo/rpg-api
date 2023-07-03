@@ -79,4 +79,19 @@ describe('ClassController', () => {
 
     expect(handleMocked).toBeCalledWith(params)
   })
+
+  it('should response with right data after reading one', async () => {
+    const handleMocked = jest.spyOn(classReaderController, 'handle')
+    const result: HttpResponse = {
+      data: mockClass(),
+      statusCode: HttpStatusCode.OK,
+    }
+    handleMocked.mockResolvedValueOnce(result)
+
+    const res = mockExpressResponse()
+    await controller.readOne(mockClassReaderParams().id, res)
+
+    expect(res.status).toBeCalledWith(result.statusCode)
+    expect(res.send).toBeCalledWith({ data: result.data })
+  })
 })

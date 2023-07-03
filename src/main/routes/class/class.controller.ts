@@ -22,8 +22,10 @@ export class ClassController {
 
   @Get(':id')
   async readOne(@Param('id') id: number, @Res() res: Response) {
-    return this.classReaderController.handle({
+    const result = await this.classReaderController.handle({
       id,
     })
+
+    return handleResponse(res, result)
   }
 }
