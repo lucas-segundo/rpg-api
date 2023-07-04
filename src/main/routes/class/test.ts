@@ -16,6 +16,34 @@ describe('ClassController', () => {
   let classCreaterController: ClassCreaterController
   let classReaderController: ClassReaderController
 
+  const makeMocks = () => {
+    const createdResponse: HttpResponse = {
+      data: mockClass(),
+      statusCode: HttpStatusCode.CREATED,
+    }
+
+    const okResponse: HttpResponse = {
+      ...createdResponse,
+      statusCode: HttpStatusCode.OK,
+    }
+
+    const errorResponse: HttpErrorResponse = {
+      errors: [faker.lorem.words()],
+      statusCode: faker.internet.httpStatusCode({
+        types: ['serverError', 'clientError'],
+      }),
+    }
+
+    const res = mockExpressResponse()
+
+    return {
+      createdResponse,
+      okResponse,
+      errorResponse,
+      res,
+    }
+  }
+
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule(
       makeClassModule()
@@ -26,89 +54,73 @@ describe('ClassController', () => {
     classReaderController = module.get(ClassReaderController)
   })
 
-  it('should be defined', () => {
-    expect(controller).toBeDefined()
+  describe('.create', () => {
+    it('should handle with right params', async () => {
+      const params = mockClassCreaterParams()
+      const handleMocked = jest.spyOn(classCreaterController, 'handle')
+
+      await controller.create(params, mockExpressResponse())
+
+      expect(handleMocked).toBeCalledWith(params)
+    })
+
+    it('should response with right data', async () => {
+      const handleMocked = jest.spyOn(classCreaterController, 'handle')
+      const { createdResponse, res } = makeMocks()
+
+      handleMocked.mockResolvedValueOnce(createdResponse)
+
+      await controller.create(mockClassCreaterParams(), res)
+
+      expect(res.status).toBeCalledWith(createdResponse.statusCode)
+      expect(res.send).toBeCalledWith({ data: createdResponse.data })
+    })
+
+    it('should response with right errors if it fails', async () => {
+      const handleMocked = jest.spyOn(classCreaterController, 'handle')
+      const { errorResponse, res } = makeMocks()
+
+      handleMocked.mockResolvedValueOnce(errorResponse)
+
+      await controller.create(mockClassCreaterParams(), res)
+
+      expect(res.status).toBeCalledWith(errorResponse.statusCode)
+      expect(res.send).toBeCalledWith({ errors: errorResponse.errors })
+    })
   })
 
-  it('should handle create with right params', async () => {
-    const params = mockClassCreaterParams()
-    const handleMocked = jest.spyOn(classCreaterController, 'handle')
+  describe('.read', () => {
+    it('should call with right params', async () => {
+      const params = mockClassReaderParams()
+      const handleMocked = jest.spyOn(classReaderController, 'handle')
 
-    await controller.create(params, mockExpressResponse())
+      await controller.readOne(params.id.toString(), mockExpressResponse())
 
-    expect(handleMocked).toBeCalledWith(params)
-  })
+      expect(handleMocked).toBeCalledWith(params)
+    })
 
-  it('should response with right data after creation', async () => {
-    const handleMocked = jest.spyOn(classCreaterController, 'handle')
-    const result: HttpResponse = {
-      data: mockClass(),
-      statusCode: HttpStatusCode.CREATED,
-    }
-    handleMocked.mockResolvedValueOnce(result)
+    it('should response with right data', async () => {
+      const handleMocked = jest.spyOn(classReaderController, 'handle')
+      const { okResponse, res } = makeMocks()
 
-    const res = mockExpressResponse()
-    await controller.create(mockClassCreaterParams(), res)
+      handleMocked.mockResolvedValueOnce(okResponse)
 
-    expect(res.status).toBeCalledWith(result.statusCode)
-    expect(res.send).toBeCalledWith({ data: result.data })
-  })
+      await controller.readOne(mockClassReaderParams().id.toString(), res)
 
-  it('should response with right errors after creation fails', async () => {
-    const handleMocked = jest.spyOn(classCreaterController, 'handle')
-    const result: HttpErrorResponse = {
-      errors: [faker.lorem.words()],
-      statusCode: faker.internet.httpStatusCode({
-        types: ['serverError', 'clientError'],
-      }),
-    }
-    handleMocked.mockResolvedValueOnce(result)
+      expect(res.status).toBeCalledWith(okResponse.statusCode)
+      expect(res.send).toBeCalledWith({ data: okResponse.data })
+    })
 
-    const res = mockExpressResponse()
-    await controller.create(mockClassCreaterParams(), res)
+    it('should response with right errors after it fails', async () => {
+      const handleMocked = jest.spyOn(classReaderController, 'handle')
+      const { errorResponse, res } = makeMocks()
 
-    expect(res.status).toBeCalledWith(result.statusCode)
-    expect(res.send).toBeCalledWith({ errors: result.errors })
-  })
+      handleMocked.mockResolvedValueOnce(errorResponse)
 
-  it('should call read with right params', async () => {
-    const params = mockClassReaderParams()
-    const handleMocked = jest.spyOn(classReaderController, 'handle')
+      await controller.readOne(mockClassReaderParams().id.toString(), res)
 
-    await controller.readOne(params.id.toString(), mockExpressResponse())
-
-    expect(handleMocked).toBeCalledWith(params)
-  })
-
-  it('should response with right data after reading one', async () => {
-    const handleMocked = jest.spyOn(classReaderController, 'handle')
-    const result: HttpResponse = {
-      data: mockClass(),
-      statusCode: HttpStatusCode.OK,
-    }
-    handleMocked.mockResolvedValueOnce(result)
-
-    const res = mockExpressResponse()
-    await controller.readOne(mockClassReaderParams().id.toString(), res)
-
-    expect(res.status).toBeCalledWith(result.statusCode)
-    expect(res.send).toBeCalledWith({ data: result.data })
-  })
-
-  it('should response with right errors after reading one fails', async () => {
-    const handleMocked = jest.spyOn(classReaderController, 'handle')
-    const result: HttpErrorResponse = {
-      errors: [faker.lorem.words()],
-      statusCode: faker.internet.httpStatusCode({
-        types: ['serverError', 'clientError'],
-      }),
-    }
-    handleMocked.mockResolvedValueOnce(result)
-
-    const res = mockExpressResponse()
-    await controller.readOne(mockClassReaderParams().id.toString(), res)
-
-    expect(res.status).toBeCalledWith(result.statusCode)
-    expect(res.send).toBeCalledWith({ errors: result.errors })
+      expect(res.status).toBeCalledWith(errorResponse.statusCode)
+      expect(res.send).toBeCalledWith({ errors: errorResponse.errors })
+    })
   })
 })
