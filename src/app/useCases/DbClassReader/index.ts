@@ -12,6 +12,7 @@ export class DbClassReader implements ClassReader {
 
       return classCreated
     } catch (error) {
+      console.error(error)
       throw new UnexpectedError()
     }
   }
