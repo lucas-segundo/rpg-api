@@ -21,9 +21,9 @@ export class ClassController {
   }
 
   @Get(':id')
-  async readOne(@Param('id') id: number, @Res() res: Response) {
+  async readOne(@Param('id') id: string, @Res() res: Response) {
     const result = await this.classReaderController.handle({
-      id,
+      id: Number(id),
     })
 
     return handleResponse(res, result)
