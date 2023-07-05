@@ -1,14 +1,24 @@
 import { ClassUpdaterRepo } from 'app/interfaces/ClassUpdaterRepo'
 import { UnexpectedError } from 'domain/errors/UnexpectedError'
 import { Class } from 'domain/models/Class'
-import { ClassUpdater, ClassUpdaterParams } from 'domain/useCases/ClassUpdater'
+import {
+  ClassUpdater,
+  ClassUpdaterIdentifier,
+  ClassUpdaterParams,
+} from 'domain/useCases/ClassUpdater'
 
 export class DbClassUpdater implements ClassUpdater {
   constructor(private readonly ClassUpdaterRepo: ClassUpdaterRepo) {}
 
-  async update(params: ClassUpdaterParams): Promise<Class> {
+  async update(
+    identifier: ClassUpdaterIdentifier,
+    params: ClassUpdaterParams
+  ): Promise<Class> {
     try {
-      const classCreated = await this.ClassUpdaterRepo.update(params)
+      const classCreated = await this.ClassUpdaterRepo.update(
+        identifier,
+        params
+      )
 
       return classCreated
     } catch (error) {

@@ -1,8 +1,15 @@
 import { ClassRepo } from 'app/models/ClassRepo'
-import { ClassUpdaterParams } from 'domain/useCases/ClassUpdater'
+import {
+  ClassUpdaterIdentifier,
+  ClassUpdaterParams,
+} from 'domain/useCases/ClassUpdater'
 
+export interface ClassUpdaterRepoIdentifier extends ClassUpdaterIdentifier {}
 export interface ClassUpdaterRepoParams extends ClassUpdaterParams {}
 
 export interface ClassUpdaterRepo {
-  update(params: ClassUpdaterRepoParams): Promise<ClassRepo>
+  update(
+    identifier: ClassUpdaterRepoIdentifier,
+    params: ClassUpdaterRepoParams
+  ): Promise<ClassRepo>
 }
