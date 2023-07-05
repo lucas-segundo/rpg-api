@@ -1,4 +1,5 @@
 import { ClassUpdaterRepo } from 'app/interfaces/ClassUpdaterRepo'
+import { NotFoundError } from 'domain/errors/NotFound'
 import { UnexpectedError } from 'domain/errors/UnexpectedError'
 import { Class } from 'domain/models/Class'
 import {
@@ -23,6 +24,11 @@ export class DbClassUpdater implements ClassUpdater {
       return classCreated
     } catch (error) {
       console.error(error)
+
+      if (error instanceof NotFoundError) {
+        throw error
+      }
+
       throw new UnexpectedError()
     }
   }

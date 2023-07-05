@@ -1,6 +1,7 @@
 import { ClassUpdaterRepoParams } from 'app/interfaces/ClassUpdaterRepo'
 import { mockClassUpdaterRepo } from 'app/interfaces/ClassUpdaterRepo/mock'
 import { mockClassRepo } from 'app/models/ClassRepo/mock'
+import { NotFoundError } from 'domain/errors/NotFound'
 import { UnexpectedError } from 'domain/errors/UnexpectedError'
 import { Class } from 'domain/models/Class'
 import {
@@ -57,5 +58,14 @@ describe('DbClassUpdater', () => {
 
     const promise = sut.update(identifier, params)
     await expect(promise).rejects.toBeInstanceOf(UnexpectedError)
+  })
+
+  it('should throw not found error if class repo throws', async () => {
+    const { sut, repo, params, identifier } = makeSut()
+
+    repo.update.mockRejectedValue(new NotFoundError('Class'))
+
+    const promise = sut.update(identifier, params)
+    await expect(promise).rejects.toBeInstanceOf(NotFoundError)
   })
 })
