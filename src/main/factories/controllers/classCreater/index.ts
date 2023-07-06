@@ -1,6 +1,6 @@
 import { ClassCreaterController } from 'presentation/controllers/ClassCreater'
-import { makeClassCreater } from '../useCases/classCreater'
-import { makeClassCreaterValidation } from '../validation/classCreater'
+import { makeClassCreater } from './useCase'
+import { makeClassCreaterValidation } from './validation'
 
 export const makeClassCreaterController = () => {
   const classCreater = makeClassCreater()
