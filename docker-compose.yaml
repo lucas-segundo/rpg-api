@@ -1,6 +1,19 @@
 version: '3.8'
 
 services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 3000:3000
+      - 9229:9229
+    depends_on:
+      - db
+    volumes:
+      - /app/node_modules
+      - ./:/app
+    command: yarn start:debug
   db:
     image: postgres:15.3-alpine3.18
     ports:
