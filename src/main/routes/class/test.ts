@@ -3,8 +3,13 @@ import { Test, TestingModule } from '@nestjs/testing'
 import { mockClass } from 'domain/models/Class/mock'
 import { mockClassCreaterParams } from 'domain/useCases/ClassCreater/mock'
 import { mockClassReaderParams } from 'domain/useCases/ClassReader/mock'
+import { mockClassUpdaterParams } from 'domain/useCases/ClassUpdater/mock'
 import { ClassCreaterController } from 'presentation/controllers/ClassCreater'
 import { ClassReaderController } from 'presentation/controllers/ClassReader'
+import {
+  ClassUpdaterController,
+  ClassUpdaterControllerParams,
+} from 'presentation/controllers/ClassUpdater'
 import { HttpStatusCode } from 'presentation/enum/HttpStatusCode'
 import { HttpErrorResponse, HttpResponse } from 'presentation/interfaces/Http'
 import { mockExpressResponse } from '../utils/mockExpressResponse'
@@ -15,6 +20,7 @@ describe('ClassController', () => {
   let controller: ClassController
   let classCreaterController: ClassCreaterController
   let classReaderController: ClassReaderController
+  let classUpdaterController: ClassUpdaterController
 
   const makeMocks = () => {
     const createdResponse: HttpResponse = {
@@ -52,6 +58,7 @@ describe('ClassController', () => {
     controller = module.get(ClassController)
     classCreaterController = module.get(ClassCreaterController)
     classReaderController = module.get(ClassReaderController)
+    classUpdaterController = module.get(ClassUpdaterController)
   })
 
   describe('.create', () => {
@@ -118,6 +125,59 @@ describe('ClassController', () => {
       handleMocked.mockResolvedValueOnce(errorResponse)
 
       await controller.readOne(mockClassReaderParams().id.toString(), res)
+
+      expect(res.status).toBeCalledWith(errorResponse.statusCode)
+      expect(res.send).toBeCalledWith({ errors: errorResponse.errors })
+    })
+  })
+
+  describe('.update', () => {
+    it('should call with right params', async () => {
+      const identifier = faker.number.int()
+      const params = mockClassUpdaterParams()
+      const handleMocked = jest.spyOn(classUpdaterController, 'handle')
+
+      await controller.update(
+        identifier.toString(),
+        params,
+        mockExpressResponse()
+      )
+
+      const expectedParams: ClassUpdaterControllerParams = {
+        identifier: {
+          id: identifier,
+        },
+        params,
+      }
+
+      expect(handleMocked).toBeCalledWith(expectedParams)
+    })
+
+    it('should response with right data', async () => {
+      const identifier = faker.number.int()
+      const params = mockClassUpdaterParams()
+      const handleMocked = jest.spyOn(classUpdaterController, 'handle')
+
+      const { okResponse, res } = makeMocks()
+
+      handleMocked.mockResolvedValueOnce(okResponse)
+
+      await controller.update(identifier.toString(), params, res)
+
+      expect(res.status).toBeCalledWith(okResponse.statusCode)
+      expect(res.send).toBeCalledWith({ data: okResponse.data })
+    })
+
+    it('should response with right errors after it fails', async () => {
+      const identifier = faker.number.int()
+      const params = mockClassUpdaterParams()
+      const handleMocked = jest.spyOn(classUpdaterController, 'handle')
+
+      const { errorResponse, res } = makeMocks()
+
+      handleMocked.mockResolvedValueOnce(errorResponse)
+
+      await controller.update(identifier.toString(), params, res)
 
       expect(res.status).toBeCalledWith(errorResponse.statusCode)
       expect(res.send).toBeCalledWith({ errors: errorResponse.errors })
