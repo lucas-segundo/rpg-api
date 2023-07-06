@@ -1,6 +1,6 @@
 export interface ValidationParams {
   field: string
-  value: string | number
+  value: string | number | null | undefined
 }
 
 export interface Validation {
