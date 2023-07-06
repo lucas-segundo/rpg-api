@@ -13,11 +13,11 @@ import {
 import { HttpStatusCode } from 'presentation/enum/HttpStatusCode'
 import { HttpErrorResponse, HttpResponse } from 'presentation/interfaces/Http'
 import { mockExpressResponse } from '../utils/mockExpressResponse'
-import { ClassController } from './class.controller'
-import { makeClassModule } from './factory.module'
+import { ClassesController } from './classes.controller'
+import { makeClassesModule } from './factory.module'
 
-describe('ClassController', () => {
-  let controller: ClassController
+describe('ClassesController', () => {
+  let controller: ClassesController
   let classCreaterController: ClassCreaterController
   let classReaderController: ClassReaderController
   let classUpdaterController: ClassUpdaterController
@@ -52,10 +52,10 @@ describe('ClassController', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule(
-      makeClassModule()
+      makeClassesModule()
     ).compile()
 
-    controller = module.get(ClassController)
+    controller = module.get(ClassesController)
     classCreaterController = module.get(ClassCreaterController)
     classReaderController = module.get(ClassReaderController)
     classUpdaterController = module.get(ClassUpdaterController)

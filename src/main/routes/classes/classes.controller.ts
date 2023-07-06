@@ -8,8 +8,8 @@ import { handleResponse } from '../utils/handleResponse'
 import { CreateClassDto } from './dto/CreateClass'
 import { UpdateClassDto } from './dto/UpdateClass'
 
-@Controller('class')
-export class ClassController {
+@Controller('classes')
+export class ClassesController {
   constructor(
     private readonly classCreaterController: ClassCreaterController,
     private readonly classReaderController: ClassReaderController,

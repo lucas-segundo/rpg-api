@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common'
-import { ClassModule } from './class/class.module'
+import { ClassesModule } from './classes/classes.module'
 
 @Module({
-  imports: [ClassModule],
+  imports: [ClassesModule],
   controllers: [],
   providers: [],
 })

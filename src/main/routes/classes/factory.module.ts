@@ -5,10 +5,10 @@ import { makeClassUpdaterController } from 'main/factories/controllers/classUpda
 import { ClassCreaterController } from 'presentation/controllers/ClassCreater'
 import { ClassReaderController } from 'presentation/controllers/ClassReader'
 import { ClassUpdaterController } from 'presentation/controllers/ClassUpdater'
-import { ClassController } from './class.controller'
+import { ClassesController } from './classes.controller'
 
-export const makeClassModule = (): ModuleMetadata => ({
-  controllers: [ClassController],
+export const makeClassesModule = (): ModuleMetadata => ({
+  controllers: [ClassesController],
   providers: [
     {
       provide: ClassCreaterController,
