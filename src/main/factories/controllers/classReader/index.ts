@@ -1,5 +1,5 @@
 import { ClassReaderController } from 'presentation/controllers/ClassReader'
-import { makeClassReader } from './useCases'
+import { makeClassReader } from './useCase'
 import { makeClassReaderValidation } from './validation'
 
 export const makeClassReaderController = () => {
