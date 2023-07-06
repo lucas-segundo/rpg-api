@@ -1,6 +1,6 @@
 import { ClassUpdaterController } from 'presentation/controllers/ClassUpdater'
-import { makeClassUpdater } from '../useCases/classUpdater'
-import { makeClassUpdaterValidation } from '../validation/classUpdater'
+import { makeClassUpdater } from './useCase'
+import { makeClassUpdaterValidation } from './validation'
 
 export const makeClassUpdaterController = () => {
   const classCreater = makeClassUpdater()
