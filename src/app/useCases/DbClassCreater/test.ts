@@ -10,16 +10,20 @@ import { DbClassCreater } from '.'
 const makeSut = () => {
   const repo = mockClassCreaterRepo()
   const sut = new DbClassCreater(repo)
+  const repoResult: ClassRepo = mockClassRepo()
 
   return {
     sut,
     repo,
+    repoResult,
   }
 }
 
 describe('DbClassCreater', () => {
   it('should call class creater repo with right params', async () => {
-    const { sut, repo } = makeSut()
+    const { sut, repo, repoResult } = makeSut()
+
+    repo.create.mockResolvedValue(repoResult)
 
     const params = mockClassCreaterParams()
     const repoParams: ClassCreaterRepoParams = {
@@ -32,14 +36,17 @@ describe('DbClassCreater', () => {
   })
 
   it('should return class created', async () => {
-    const { sut, repo } = makeSut()
+    const { sut, repo, repoResult } = makeSut()
 
-    const repoResult: ClassRepo = mockClassRepo()
     repo.create.mockResolvedValue(repoResult)
 
     const classCreated = await sut.create(mockClassCreaterParams())
 
-    const expectedClass: Class = repoResult
+    const { id, title } = repoResult
+    const expectedClass: Class = {
+      id,
+      title,
+    }
 
     expect(classCreated).toEqual(expectedClass)
   })

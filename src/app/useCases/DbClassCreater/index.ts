@@ -1,4 +1,5 @@
 import { ClassCreaterRepo } from 'app/interfaces/ClassCreaterRepo'
+import { ClassRepo } from 'app/models/ClassRepo'
 import { UnexpectedError } from 'domain/errors/UnexpectedError'
 import { Class } from 'domain/models/Class'
 import { ClassCreater, ClassCreaterParams } from 'domain/useCases/ClassCreater'
@@ -10,10 +11,16 @@ export class DbClassCreater implements ClassCreater {
     try {
       const classCreated = await this.classCreaterRepo.create(params)
 
-      return classCreated
+      return this.adaptToModel(classCreated)
     } catch (error) {
-      console.error(error)
       throw new UnexpectedError()
+    }
+  }
+
+  private adaptToModel({ id, title }: ClassRepo): Class {
+    return {
+      id,
+      title,
     }
   }
 }
