@@ -7,7 +7,10 @@ import {
 import { HttpStatusCode } from 'presentation/enum/HttpStatusCode'
 import { HttpErrorResponse, HttpResponse } from 'presentation/interfaces/Http'
 import { ValidationParams } from 'presentation/interfaces/Validation'
-import { mockValidation } from 'presentation/interfaces/Validation/mock'
+import {
+  mockValidation,
+  mockValidationErrors,
+} from 'presentation/interfaces/Validation/mock'
 import { ClassCreaterController } from '.'
 
 const makeSut = () => {
@@ -71,10 +74,12 @@ describe('ClassCreaterController', () => {
     const { sut, validation } = makeSut()
     const params = mockClassCreaterParams()
 
-    const validationParams: ValidationParams = {
-      field: 'title',
-      value: params.title,
-    }
+    const validationParams: ValidationParams[] = [
+      {
+        field: 'title',
+        value: params.title,
+      },
+    ]
 
     await sut.handle(params)
 
@@ -84,7 +89,7 @@ describe('ClassCreaterController', () => {
   it('should return http error if it has validations errors', async () => {
     const { sut, validation } = makeSut()
 
-    const errorMessages = [faker.lorem.words()]
+    const errorMessages = mockValidationErrors()
     validation.validate.mockReturnValue(errorMessages)
 
     const params = mockClassCreaterParams()

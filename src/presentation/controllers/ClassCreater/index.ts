@@ -26,11 +26,13 @@ export class ClassCreaterController implements Controller {
     return await this.create(params)
   }
 
-  validateFields({ title }: ClassCreaterParams) {
-    return this.validation.validate({
-      field: 'title',
-      value: title,
-    })
+  private validateFields({ title }: ClassCreaterParams) {
+    return this.validation.validate([
+      {
+        field: 'title',
+        value: title,
+      },
+    ])
   }
 
   private async create(params: ClassCreaterParams) {

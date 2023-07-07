@@ -7,7 +7,10 @@ import {
 } from 'domain/useCases/ClassUpdater/mock'
 import { HttpStatusCode } from 'presentation/enum/HttpStatusCode'
 import { HttpErrorResponse, HttpResponse } from 'presentation/interfaces/Http'
-import { ValidationParams } from 'presentation/interfaces/Validation'
+import {
+  ValidationError,
+  ValidationParams,
+} from 'presentation/interfaces/Validation'
 import { mockValidation } from 'presentation/interfaces/Validation/mock'
 import { ClassUpdaterController } from '.'
 
@@ -74,32 +77,34 @@ describe('ClassUpdaterController', () => {
   it('should call validation with right params', async () => {
     const { sut, validation, identifier, params } = makeSut()
 
-    const identifierValidation: ValidationParams = {
-      field: 'id',
-      value: identifier.id,
-    }
-
-    const titleValidation: ValidationParams = {
-      field: 'title',
-      value: params.title,
-    }
+    const expectedParams: ValidationParams[] = [
+      {
+        field: 'id',
+        value: identifier.id,
+      },
+      {
+        field: 'title',
+        value: params.title,
+      },
+    ]
 
     await sut.handle({ identifier, params })
 
-    expect(validation.validate).toBeCalledWith(identifierValidation)
-    expect(validation.validate).toBeCalledWith(titleValidation)
+    expect(validation.validate).toBeCalledWith(expectedParams)
   })
 
   it('should return http error if it has validations errors', async () => {
     const { sut, validation, identifier, params } = makeSut()
 
-    const errorMessages = [faker.lorem.words()]
-    validation.validate.mockReturnValueOnce(errorMessages)
+    const errors: ValidationError[] = [
+      { field: faker.database.column(), errors: [faker.lorem.words()] },
+    ]
+    validation.validate.mockReturnValueOnce(errors)
 
     const result = await sut.handle({ identifier, params })
 
     const httpErrorResponse: HttpErrorResponse = {
-      errors: errorMessages,
+      errors,
       statusCode: HttpStatusCode.BAD_REQUEST,
     }
 

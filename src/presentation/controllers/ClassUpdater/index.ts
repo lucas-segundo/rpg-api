@@ -39,17 +39,18 @@ export class ClassUpdaterController implements Controller {
   }
 
   private validate({ identifier, params }: ClassUpdaterControllerParams) {
-    const idError = this.validation.validate({
-      field: 'id',
-      value: identifier.id,
-    })
+    const errors = this.validation.validate([
+      {
+        field: 'id',
+        value: identifier.id,
+      },
+      {
+        field: 'title',
+        value: params.title,
+      },
+    ])
 
-    const titleErrors = this.validation.validate({
-      field: 'title',
-      value: params.title,
-    })
-
-    return [...idError, ...titleErrors]
+    return errors
   }
 
   private async update({ identifier, params }: ClassUpdaterControllerParams) {

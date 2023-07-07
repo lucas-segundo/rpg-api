@@ -6,7 +6,10 @@ import {
 } from 'domain/useCases/ClassReader/mock'
 import { HttpStatusCode } from 'presentation/enum/HttpStatusCode'
 import { HttpErrorResponse, HttpResponse } from 'presentation/interfaces/Http'
-import { ValidationParams } from 'presentation/interfaces/Validation'
+import {
+  ValidationError,
+  ValidationParams,
+} from 'presentation/interfaces/Validation'
 import { mockValidation } from 'presentation/interfaces/Validation/mock'
 import { ClassReaderController } from '.'
 
@@ -71,10 +74,12 @@ describe('ClassReaderController', () => {
     const { sut, validation } = makeSut()
     const params = mockClassReaderParams()
 
-    const validationParams: ValidationParams = {
-      field: 'id',
-      value: params.id,
-    }
+    const validationParams: ValidationParams[] = [
+      {
+        field: 'id',
+        value: params.id,
+      },
+    ]
 
     await sut.handle(params)
 
@@ -84,14 +89,17 @@ describe('ClassReaderController', () => {
   it('should return http error if it has validations errors', async () => {
     const { sut, validation } = makeSut()
 
-    const errorMessages = [faker.lorem.words()]
-    validation.validate.mockReturnValue(errorMessages)
+    const errors: ValidationError[] = [
+      { field: faker.database.column(), errors: [faker.lorem.words()] },
+    ]
+
+    validation.validate.mockReturnValue(errors)
 
     const params = mockClassReaderParams()
     const result = await sut.handle(params)
 
     const httpErrorResponse: HttpErrorResponse = {
-      errors: errorMessages,
+      errors,
       statusCode: HttpStatusCode.BAD_REQUEST,
     }
 
