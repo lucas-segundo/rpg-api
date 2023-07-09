@@ -3,17 +3,18 @@ import { mockClassUpdaterRepo } from 'app/interfaces/ClassUpdaterRepo/mock'
 import { mockClassRepo } from 'app/models/ClassRepo/mock'
 import { NotFoundError } from 'domain/errors/NotFound'
 import { UnexpectedError } from 'domain/errors/UnexpectedError'
-import { Class } from 'domain/models/Class'
 import {
   mockClassUpdaterParams,
   mockClassUpdaterIdentifier,
 } from 'domain/useCases/ClassUpdater/mock'
 import { DbClassUpdater } from '.'
+import { mockDbClassAdapter } from '../DbClassAdapter/mock'
 
 const makeSut = () => {
   const repo = mockClassUpdaterRepo()
   const params = mockClassUpdaterParams()
   const identifier = mockClassUpdaterIdentifier()
+  const modelAdapter = mockDbClassAdapter()
 
   const sut = new DbClassUpdater(repo)
 
@@ -22,6 +23,7 @@ const makeSut = () => {
     repo,
     params,
     identifier,
+    modelAdapter,
   }
 }
 
@@ -29,6 +31,7 @@ describe('DbClassUpdater', () => {
   it('should call class Updater repo with right params', async () => {
     const { sut, repo, params, identifier } = makeSut()
 
+    repo.update.mockResolvedValue(mockClassRepo())
     const repoParams: ClassUpdaterRepoParams = {
       ...params,
     }
@@ -39,14 +42,14 @@ describe('DbClassUpdater', () => {
   })
 
   it('should return class', async () => {
-    const { sut, repo, params, identifier } = makeSut()
+    const { sut, repo, params, identifier, modelAdapter } = makeSut()
 
     const repoResult = mockClassRepo()
     repo.update.mockResolvedValue(repoResult)
 
     const classReaded = await sut.update(identifier, params)
 
-    const expectedClass: Class = repoResult
+    const expectedClass = modelAdapter.adapt(repoResult)
 
     expect(classReaded).toEqual(expectedClass)
   })

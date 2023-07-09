@@ -1,12 +1,10 @@
-import { DbClassModelAdapter } from '.'
 import { mockClassRepo } from 'app/models/ClassRepo/mock'
 import { Class } from 'domain/models/Class'
-
-class DbClassUseCaseMocked extends DbClassModelAdapter {}
+import { mockDbClassAdapter } from './mock'
 
 describe('DbClassModelAdapter', () => {
   it('should adapt correctly', () => {
-    const sut = new DbClassUseCaseMocked()
+    const sut = mockDbClassAdapter()
 
     const repoData = mockClassRepo()
     const model = sut.adapt(repoData)

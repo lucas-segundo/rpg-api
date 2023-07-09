@@ -3,19 +3,21 @@ import { mockClassCreaterRepo } from 'app/interfaces/ClassCreaterRepo/mock'
 import { ClassRepo } from 'app/models/ClassRepo'
 import { mockClassRepo } from 'app/models/ClassRepo/mock'
 import { UnexpectedError } from 'domain/errors/UnexpectedError'
-import { Class } from 'domain/models/Class'
 import { mockClassCreaterParams } from 'domain/useCases/ClassCreater/mock'
 import { DbClassCreater } from '.'
+import { mockDbClassAdapter } from '../DbClassAdapter/mock'
 
 const makeSut = () => {
   const repo = mockClassCreaterRepo()
   const sut = new DbClassCreater(repo)
   const repoResult: ClassRepo = mockClassRepo()
+  const modelAdapter = mockDbClassAdapter()
 
   return {
     sut,
     repo,
     repoResult,
+    modelAdapter,
   }
 }
 
@@ -36,17 +38,13 @@ describe('DbClassCreater', () => {
   })
 
   it('should return class created', async () => {
-    const { sut, repo, repoResult } = makeSut()
+    const { sut, repo, repoResult, modelAdapter } = makeSut()
 
     repo.create.mockResolvedValue(repoResult)
 
     const classCreated = await sut.create(mockClassCreaterParams())
 
-    const { id, title } = repoResult
-    const expectedClass: Class = {
-      id,
-      title,
-    }
+    const expectedClass = modelAdapter.adapt(repoResult)
 
     expect(classCreated).toEqual(expectedClass)
   })

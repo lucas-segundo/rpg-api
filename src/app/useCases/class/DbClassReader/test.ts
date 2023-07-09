@@ -2,17 +2,19 @@ import { ClassReaderRepoParams } from 'app/interfaces/ClassReaderRepo'
 import { mockClassReaderRepo } from 'app/interfaces/ClassReaderRepo/mock'
 import { mockClassRepo } from 'app/models/ClassRepo/mock'
 import { UnexpectedError } from 'domain/errors/UnexpectedError'
-import { Class } from 'domain/models/Class'
 import { mockClassReaderParams } from 'domain/useCases/ClassReader/mock'
 import { DbClassReader } from '.'
+import { mockDbClassAdapter } from '../DbClassAdapter/mock'
 
 const makeSut = () => {
   const repo = mockClassReaderRepo()
   const sut = new DbClassReader(repo)
+  const modelAdapter = mockDbClassAdapter()
 
   return {
     sut,
     repo,
+    modelAdapter,
   }
 }
 
@@ -31,14 +33,14 @@ describe('DbClassReader', () => {
   })
 
   it('should return class', async () => {
-    const { sut, repo } = makeSut()
+    const { sut, repo, modelAdapter } = makeSut()
 
     const repoResult = mockClassRepo()
     repo.read.mockResolvedValue(repoResult)
 
     const classReaded = await sut.read(mockClassReaderParams())
 
-    const expectedClass: Class = repoResult
+    const expectedClass = modelAdapter.adapt(repoResult)
 
     expect(classReaded).toEqual(expectedClass)
   })
