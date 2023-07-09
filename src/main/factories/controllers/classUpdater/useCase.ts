@@ -1,4 +1,4 @@
-import { DbClassUpdater } from 'app/useCases/DbClassUpdater'
+import { DbClassUpdater } from 'app/useCases/class/DbClassUpdater'
 import { ClassUpdater } from 'domain/useCases/ClassUpdater'
 import { PrismaClassUpdaterRepo } from 'infra/prisma/repositories/ClassUpdater'
 

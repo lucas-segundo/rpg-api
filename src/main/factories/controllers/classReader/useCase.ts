@@ -1,4 +1,4 @@
-import { DbClassReader } from 'app/useCases/DbClassReader'
+import { DbClassReader } from 'app/useCases/class/DbClassReader'
 import { ClassReader } from 'domain/useCases/ClassReader'
 import { PrismaClassReaderRepo } from 'infra/prisma/repositories/ClassReader'
 
