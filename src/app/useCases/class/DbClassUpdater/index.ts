@@ -7,7 +7,7 @@ import {
   ClassUpdaterIdentifier,
   ClassUpdaterParams,
 } from 'domain/useCases/ClassUpdater'
-import { DbClassModelAdapter } from '../DbClassAdapter'
+import { DbClassModelAdapter } from '../../../adapters/DbClassAdapter'
 
 export class DbClassUpdater
   extends DbClassModelAdapter

@@ -4,7 +4,7 @@ import { mockClassRepo } from 'app/models/ClassRepo/mock'
 import { UnexpectedError } from 'domain/errors/UnexpectedError'
 import { mockClassReaderParams } from 'domain/useCases/ClassReader/mock'
 import { DbClassReader } from '.'
-import { mockDbClassAdapter } from '../DbClassAdapter/mock'
+import { mockDbClassAdapter } from '../../../adapters/DbClassAdapter/mock'
 
 const makeSut = () => {
   const repo = mockClassReaderRepo()

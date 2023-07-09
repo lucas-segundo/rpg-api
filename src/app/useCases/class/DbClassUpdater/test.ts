@@ -8,7 +8,7 @@ import {
   mockClassUpdaterIdentifier,
 } from 'domain/useCases/ClassUpdater/mock'
 import { DbClassUpdater } from '.'
-import { mockDbClassAdapter } from '../DbClassAdapter/mock'
+import { mockDbClassAdapter } from '../../../adapters/DbClassAdapter/mock'
 
 const makeSut = () => {
   const repo = mockClassUpdaterRepo()

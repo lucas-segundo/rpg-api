@@ -2,7 +2,7 @@ import { ClassCreaterRepo } from 'app/interfaces/ClassCreaterRepo'
 import { UnexpectedError } from 'domain/errors/UnexpectedError'
 import { Class } from 'domain/models/Class'
 import { ClassCreater, ClassCreaterParams } from 'domain/useCases/ClassCreater'
-import { DbClassModelAdapter } from '../DbClassAdapter'
+import { DbClassModelAdapter } from '../../../adapters/DbClassAdapter'
 
 export class DbClassCreater
   extends DbClassModelAdapter
