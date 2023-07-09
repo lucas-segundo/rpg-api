@@ -1,8 +1,11 @@
+import { faker } from '@faker-js/faker'
+import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library'
 import {
   mockClassUpdaterRepoParams,
   mockClassUpdaterRepoIdentifier,
 } from 'app/interfaces/ClassUpdaterRepo/mock'
 import { mockClassRepo } from 'app/models/ClassRepo/mock'
+import { NotFoundError } from 'domain/errors/NotFound'
 import { prismaMock } from 'infra/prisma/mock'
 import { PrismaClassUpdaterRepo } from '.'
 
@@ -45,5 +48,20 @@ describe('PrismaClassUpdaterRepo', () => {
     const result = await sut.update(identifier, params)
 
     expect(result).toEqual(classRepo)
+  })
+
+  it('should NotFoundError if it throw PrismaClientKnownRequestError', async () => {
+    const { sut, params, identifier } = makeSut()
+
+    prismaMock.class.update.mockRejectedValue(
+      new PrismaClientKnownRequestError(faker.lorem.words(), {
+        clientVersion: faker.database.engine(),
+        code: faker.lorem.word(),
+      })
+    )
+
+    const result = sut.update(identifier, params)
+
+    await expect(result).rejects.toBeInstanceOf(NotFoundError)
   })
 })
