@@ -2,9 +2,11 @@ import { faker } from '@faker-js/faker'
 import { Test, TestingModule } from '@nestjs/testing'
 import { mockClass } from 'domain/models/Class/mock'
 import { mockClassCreaterParams } from 'domain/useCases/ClassCreater/mock'
+import { mockClassDeleterParams } from 'domain/useCases/ClassDeleter/mock'
 import { mockClassReaderParams } from 'domain/useCases/ClassReader/mock'
 import { mockClassUpdaterParams } from 'domain/useCases/ClassUpdater/mock'
 import { ClassCreaterController } from 'presentation/controllers/ClassCreater'
+import { ClassDeleterController } from 'presentation/controllers/ClassDeleter'
 import { ClassReaderController } from 'presentation/controllers/ClassReader'
 import {
   ClassUpdaterController,
@@ -21,6 +23,7 @@ describe('ClassesController', () => {
   let classCreaterController: ClassCreaterController
   let classReaderController: ClassReaderController
   let classUpdaterController: ClassUpdaterController
+  let classDeleterController: ClassDeleterController
 
   const makeMocks = () => {
     const createdResponse: HttpResponse = {
@@ -59,6 +62,7 @@ describe('ClassesController', () => {
     classCreaterController = module.get(ClassCreaterController)
     classReaderController = module.get(ClassReaderController)
     classUpdaterController = module.get(ClassUpdaterController)
+    classDeleterController = module.get(ClassDeleterController)
   })
 
   describe('.create', () => {
@@ -178,6 +182,41 @@ describe('ClassesController', () => {
       handleMocked.mockResolvedValueOnce(errorResponse)
 
       await controller.update(identifier.toString(), params, res)
+
+      expect(res.status).toBeCalledWith(errorResponse.statusCode)
+      expect(res.send).toBeCalledWith({ errors: errorResponse.errors })
+    })
+  })
+
+  describe('.delete', () => {
+    it('should call with right params', async () => {
+      const params = mockClassDeleterParams()
+      const handleMocked = jest.spyOn(classDeleterController, 'handle')
+
+      await controller.delete(params.id.toString(), mockExpressResponse())
+
+      expect(handleMocked).toBeCalledWith(params)
+    })
+
+    it('should response with right data', async () => {
+      const handleMocked = jest.spyOn(classDeleterController, 'handle')
+      const { okResponse, res } = makeMocks()
+
+      handleMocked.mockResolvedValueOnce(okResponse)
+
+      await controller.delete(mockClassDeleterParams().id.toString(), res)
+
+      expect(res.status).toBeCalledWith(okResponse.statusCode)
+      expect(res.send).toBeCalledWith({ data: okResponse.data })
+    })
+
+    it('should response with right errors after it fails', async () => {
+      const handleMocked = jest.spyOn(classDeleterController, 'handle')
+      const { errorResponse, res } = makeMocks()
+
+      handleMocked.mockResolvedValueOnce(errorResponse)
+
+      await controller.delete(mockClassDeleterParams().id.toString(), res)
 
       expect(res.status).toBeCalledWith(errorResponse.statusCode)
       expect(res.send).toBeCalledWith({ errors: errorResponse.errors })

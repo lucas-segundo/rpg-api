@@ -1,6 +1,16 @@
-import { Controller, Post, Body, Res, Get, Param, Patch } from '@nestjs/common'
+import {
+  Controller,
+  Post,
+  Body,
+  Res,
+  Get,
+  Param,
+  Patch,
+  Delete,
+} from '@nestjs/common'
 import { Response } from 'express'
 import { ClassCreaterController } from 'presentation/controllers/ClassCreater'
+import { ClassDeleterController } from 'presentation/controllers/ClassDeleter'
 import { ClassReaderController } from 'presentation/controllers/ClassReader'
 import { ClassUpdaterController } from 'presentation/controllers/ClassUpdater'
 
@@ -13,7 +23,8 @@ export class ClassesController {
   constructor(
     private readonly classCreaterController: ClassCreaterController,
     private readonly classReaderController: ClassReaderController,
-    private readonly classUpdaterController: ClassUpdaterController
+    private readonly classUpdaterController: ClassUpdaterController,
+    private readonly classDeleterController: ClassDeleterController
   ) {}
 
   @Post()
@@ -43,6 +54,15 @@ export class ClassesController {
         id: Number(id),
       },
       params: updateUserDto,
+    })
+
+    return handleResponse(res, result)
+  }
+
+  @Delete(':id')
+  async delete(@Param('id') id: string, @Res() res: Response) {
+    const result = await this.classDeleterController.handle({
+      id: Number(id),
     })
 
     return handleResponse(res, result)
