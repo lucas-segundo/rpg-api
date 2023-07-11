@@ -1,3 +1,4 @@
+import { faker } from '@faker-js/faker'
 import { Class } from 'domain/models/Class'
 import { mockClassCreaterParams } from 'domain/useCases/ClassCreater/mock'
 import { HttpStatusCode } from 'presentation/enum/HttpStatusCode'
@@ -31,6 +32,27 @@ describe('Classes (e2e)', () => {
         .expect(HttpStatusCode.OK)
         .expect((response: request.Response) => {
           expect(response.body.data).toEqual(classCreated)
+        })
+    })
+  })
+
+  describe('PATCH /classes', () => {
+    it('should update one class', () => {
+      const patchBody: Partial<Class> = {
+        title: faker.lorem.words(),
+        deletedAt: faker.date.anytime(),
+      }
+
+      return request(url)
+        .patch(path + '/' + classCreated.id)
+        .send(patchBody)
+        .expect(HttpStatusCode.OK)
+        .expect((response: request.Response) => {
+          expect(response.body.data).toEqual({
+            ...classCreated,
+            ...patchBody,
+            deletedAt: patchBody.deletedAt?.toISOString(),
+          })
         })
     })
   })
