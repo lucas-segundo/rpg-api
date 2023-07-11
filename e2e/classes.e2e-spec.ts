@@ -56,4 +56,12 @@ describe('Classes (e2e)', () => {
         })
     })
   })
+
+  describe('DELETE /classes/:id', () => {
+    it('should delete one class', () => {
+      return request(url)
+        .delete(path + '/' + classCreated.id)
+        .expect(HttpStatusCode.OK)
+    })
+  })
 })
