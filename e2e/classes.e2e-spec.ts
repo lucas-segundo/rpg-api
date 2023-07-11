@@ -25,7 +25,7 @@ describe('Classes (e2e)', () => {
     })
   })
 
-  describe('GET /classes', () => {
+  describe('GET /classes/:id', () => {
     it('should get one class by identifier', () => {
       return request(url)
         .get(path + '/' + classCreated.id)
