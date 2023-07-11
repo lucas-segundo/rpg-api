@@ -11,12 +11,9 @@ import prisma from 'infra/prisma'
 export class PrismaClassDeleterRepo implements ClassDeleterRepo {
   async delete(params: ClassDeleterRepoParams): Promise<ClassRepo> {
     try {
-      const result = await prisma.class.update({
+      const result = await prisma.class.delete({
         where: {
           id: params.id,
-        },
-        data: {
-          deletedAt: new Date().toISOString(),
         },
       })
 

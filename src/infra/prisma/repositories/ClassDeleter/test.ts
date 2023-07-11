@@ -20,7 +20,7 @@ const makeSut = () => {
 }
 
 describe('PrismaClassDeleterRepo', () => {
-  it('should call update with right params', async () => {
+  it('should call delete with right params', async () => {
     const { sut, params } = makeSut()
 
     const date = faker.date.anytime()
@@ -28,12 +28,9 @@ describe('PrismaClassDeleterRepo', () => {
 
     await sut.delete(params)
 
-    expect(prismaMock.class.update).toBeCalledWith({
+    expect(prismaMock.class.delete).toBeCalledWith({
       where: {
         id: params.id,
-      },
-      data: {
-        deletedAt: date.toISOString(),
       },
     })
   })
@@ -41,7 +38,7 @@ describe('PrismaClassDeleterRepo', () => {
   it('should return class', async () => {
     const { sut, params, classRepo } = makeSut()
 
-    prismaMock.class.update.mockResolvedValue(classRepo)
+    prismaMock.class.delete.mockResolvedValue(classRepo)
 
     const result = await sut.delete(params)
 
@@ -51,7 +48,7 @@ describe('PrismaClassDeleterRepo', () => {
   it('should NotFoundError if it throw PrismaClientKnownRequestError', async () => {
     const { sut, params } = makeSut()
 
-    prismaMock.class.update.mockRejectedValue(
+    prismaMock.class.delete.mockRejectedValue(
       new PrismaClientKnownRequestError(faker.lorem.words(), {
         clientVersion: faker.database.engine(),
         code: faker.lorem.word(),
