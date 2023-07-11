@@ -45,7 +45,7 @@ describe('ClassCreaterController', () => {
 
     const httpResponse: HttpResponse = {
       data: classCreated,
-      statusCode: HttpStatusCode.OK,
+      statusCode: HttpStatusCode.CREATED,
     }
 
     const params = mockClassCreaterParams()

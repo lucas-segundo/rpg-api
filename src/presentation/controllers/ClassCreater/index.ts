@@ -41,7 +41,7 @@ export class ClassCreaterController implements Controller {
 
       return {
         data: classCreated,
-        statusCode: HttpStatusCode.OK,
+        statusCode: HttpStatusCode.CREATED,
       }
     } catch (error) {
       return {
