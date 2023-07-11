@@ -2,7 +2,7 @@ import { ClassReaderRepoParams } from 'app/interfaces/ClassReaderRepo'
 import { mockClassReaderRepo } from 'app/interfaces/ClassReaderRepo/mock'
 import { mockClassRepo } from 'app/models/ClassRepo/mock'
 import { UnexpectedError } from 'domain/errors/UnexpectedError'
-import { mockClassReaderParams } from 'domain/useCases/ClassReader/mock'
+import { mockClassReaderParams } from 'domain/useCases/Class/ClassReader/mock'
 import { DbClassReader } from '.'
 import { mockDbClassAdapter } from '../../../adapters/DbClassAdapter/mock'
 

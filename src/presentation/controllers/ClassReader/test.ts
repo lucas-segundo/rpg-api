@@ -3,7 +3,7 @@ import { mockClass } from 'domain/models/Class/mock'
 import {
   mockClassReader,
   mockClassReaderParams,
-} from 'domain/useCases/ClassReader/mock'
+} from 'domain/useCases/Class/ClassReader/mock'
 import { HttpStatusCode } from 'presentation/enum/HttpStatusCode'
 import { HttpErrorResponse, HttpResponse } from 'presentation/interfaces/Http'
 import {

@@ -1,5 +1,5 @@
 import { DbClassDeleter } from 'app/useCases/class/DbClassDeleter'
-import { ClassDeleter } from 'domain/useCases/ClassDeleter'
+import { ClassDeleter } from 'domain/useCases/Class/ClassDeleter'
 import { PrismaClassDeleterRepo } from 'infra/prisma/repositories/ClassDeleter'
 
 export const makeClassDeleter = (): ClassDeleter => {

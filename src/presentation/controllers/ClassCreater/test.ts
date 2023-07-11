@@ -3,7 +3,7 @@ import { mockClass } from 'domain/models/Class/mock'
 import {
   mockClassCreater,
   mockClassCreaterParams,
-} from 'domain/useCases/ClassCreater/mock'
+} from 'domain/useCases/Class/ClassCreater/mock'
 import { HttpStatusCode } from 'presentation/enum/HttpStatusCode'
 import { HttpErrorResponse, HttpResponse } from 'presentation/interfaces/Http'
 import { ValidationParams } from 'presentation/interfaces/Validation'

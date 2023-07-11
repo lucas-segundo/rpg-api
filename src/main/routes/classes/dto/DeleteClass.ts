@@ -1,3 +1,3 @@
-import { ClassDeleterParams } from 'domain/useCases/ClassDeleter'
+import { ClassDeleterParams } from 'domain/useCases/Class/ClassDeleter'
 
 export interface DeleteClassDto extends ClassDeleterParams {}

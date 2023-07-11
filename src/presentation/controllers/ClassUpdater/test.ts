@@ -4,7 +4,7 @@ import {
   mockClassUpdater,
   mockClassUpdaterIdentifier,
   mockClassUpdaterParams,
-} from 'domain/useCases/ClassUpdater/mock'
+} from 'domain/useCases/Class/ClassUpdater/mock'
 import { HttpStatusCode } from 'presentation/enum/HttpStatusCode'
 import { HttpErrorResponse, HttpResponse } from 'presentation/interfaces/Http'
 import {

@@ -3,7 +3,7 @@ import { mockClassDeleterRepo } from 'app/interfaces/ClassDeleterRepo/mock'
 import { mockClassRepo } from 'app/models/ClassRepo/mock'
 import { NotFoundError } from 'domain/errors/NotFound'
 import { UnexpectedError } from 'domain/errors/UnexpectedError'
-import { mockClassDeleterParams } from 'domain/useCases/ClassDeleter/mock'
+import { mockClassDeleterParams } from 'domain/useCases/Class/ClassDeleter/mock'
 import { DbClassDeleter } from '.'
 import { mockDbClassAdapter } from '../../../adapters/DbClassAdapter/mock'
 

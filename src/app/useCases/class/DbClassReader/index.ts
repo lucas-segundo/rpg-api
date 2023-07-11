@@ -1,7 +1,10 @@
 import { ClassReaderRepo } from 'app/interfaces/ClassReaderRepo'
 import { UnexpectedError } from 'domain/errors/UnexpectedError'
 import { Class } from 'domain/models/Class'
-import { ClassReader, ClassReaderParams } from 'domain/useCases/ClassReader'
+import {
+  ClassReader,
+  ClassReaderParams,
+} from 'domain/useCases/Class/ClassReader'
 import { DbClassModelAdapter } from '../../../adapters/DbClassAdapter'
 
 export class DbClassReader extends DbClassModelAdapter implements ClassReader {

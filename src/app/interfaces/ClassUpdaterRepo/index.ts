@@ -2,7 +2,7 @@ import { ClassRepo } from 'app/models/ClassRepo'
 import {
   ClassUpdaterIdentifier,
   ClassUpdaterParams,
-} from 'domain/useCases/ClassUpdater'
+} from 'domain/useCases/Class/ClassUpdater'
 
 export interface ClassUpdaterRepoIdentifier extends ClassUpdaterIdentifier {}
 export interface ClassUpdaterRepoParams extends ClassUpdaterParams {}

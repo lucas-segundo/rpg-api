@@ -2,7 +2,10 @@ import { ClassDeleterRepo } from 'app/interfaces/ClassDeleterRepo'
 import { NotFoundError } from 'domain/errors/NotFound'
 import { UnexpectedError } from 'domain/errors/UnexpectedError'
 import { Class } from 'domain/models/Class'
-import { ClassDeleter, ClassDeleterParams } from 'domain/useCases/ClassDeleter'
+import {
+  ClassDeleter,
+  ClassDeleterParams,
+} from 'domain/useCases/Class/ClassDeleter'
 import { DbClassModelAdapter } from '../../../adapters/DbClassAdapter'
 
 export class DbClassDeleter

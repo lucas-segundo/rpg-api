@@ -3,7 +3,7 @@ import { mockClass } from 'domain/models/Class/mock'
 import {
   mockClassDeleter,
   mockClassDeleterParams,
-} from 'domain/useCases/ClassDeleter/mock'
+} from 'domain/useCases/Class/ClassDeleter/mock'
 import { HttpStatusCode } from 'presentation/enum/HttpStatusCode'
 import { HttpErrorResponse, HttpResponse } from 'presentation/interfaces/Http'
 import {

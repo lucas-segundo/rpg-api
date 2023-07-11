@@ -1,5 +1,8 @@
 import { Class } from 'domain/models/Class'
-import { ClassCreater, ClassCreaterParams } from 'domain/useCases/ClassCreater'
+import {
+  ClassCreater,
+  ClassCreaterParams,
+} from 'domain/useCases/Class/ClassCreater'
 import { HttpStatusCode } from 'presentation/enum/HttpStatusCode'
 import { Controller } from 'presentation/interfaces/Controller'
 import { HttpResponse, HttpErrorResponse } from 'presentation/interfaces/Http'

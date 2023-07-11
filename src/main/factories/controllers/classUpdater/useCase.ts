@@ -1,5 +1,5 @@
 import { DbClassUpdater } from 'app/useCases/class/DbClassUpdater'
-import { ClassUpdater } from 'domain/useCases/ClassUpdater'
+import { ClassUpdater } from 'domain/useCases/Class/ClassUpdater'
 import { PrismaClassUpdaterRepo } from 'infra/prisma/repositories/ClassUpdater'
 
 export const makeClassUpdater = (): ClassUpdater => {

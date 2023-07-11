@@ -1,5 +1,5 @@
 import { ClassRepo } from 'app/models/ClassRepo'
-import { ClassDeleterParams } from 'domain/useCases/ClassDeleter'
+import { ClassDeleterParams } from 'domain/useCases/Class/ClassDeleter'
 
 export interface ClassDeleterRepoParams extends ClassDeleterParams {}
 

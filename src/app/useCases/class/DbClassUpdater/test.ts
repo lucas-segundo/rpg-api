@@ -6,7 +6,7 @@ import { UnexpectedError } from 'domain/errors/UnexpectedError'
 import {
   mockClassUpdaterParams,
   mockClassUpdaterIdentifier,
-} from 'domain/useCases/ClassUpdater/mock'
+} from 'domain/useCases/Class/ClassUpdater/mock'
 import { DbClassUpdater } from '.'
 import { mockDbClassAdapter } from '../../../adapters/DbClassAdapter/mock'
 
