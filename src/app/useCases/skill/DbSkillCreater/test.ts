@@ -3,7 +3,7 @@ import { mockSkillCreaterRepo } from 'app/interfaces/skill/SkillCreaterRepo/mock
 import { SkillRepo } from 'app/models/SkillRepo'
 import { mockSkillRepo } from 'app/models/SkillRepo/mock'
 import { UnexpectedError } from 'domain/errors/UnexpectedError'
-import { mockSkillCreaterParams } from 'domain/useCases/Skill/SkillCreater/mock'
+import { mockSkillCreaterParams } from 'domain/useCases/skill/SkillCreater/mock'
 import { DbSkillCreater } from '.'
 import { mockDbSkillAdapter } from '../../../adapters/DbSkillAdapter/mock'
 

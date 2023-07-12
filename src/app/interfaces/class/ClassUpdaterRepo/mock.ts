@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker'
-import { ClassUpdaterIdentifier } from 'domain/useCases/Class/ClassUpdater'
+import { ClassUpdaterIdentifier } from 'domain/useCases/class/ClassUpdater'
 import { ClassUpdaterRepo, ClassUpdaterRepoParams } from '.'
 
 export const mockClassUpdaterRepo = (): jest.Mocked<ClassUpdaterRepo> => ({

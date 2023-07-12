@@ -6,7 +6,7 @@ import {
   ClassUpdater,
   ClassUpdaterIdentifier,
   ClassUpdaterParams,
-} from 'domain/useCases/Class/ClassUpdater'
+} from 'domain/useCases/class/ClassUpdater'
 import { DbClassModelAdapter } from '../../../adapters/DbClassAdapter'
 
 export class DbClassUpdater

@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker'
 import { Class } from 'domain/models/Class'
-import { mockClassCreaterParams } from 'domain/useCases/Class/ClassCreater/mock'
+import { mockClassCreaterParams } from 'domain/useCases/class/ClassCreater/mock'
 import { HttpStatusCode } from 'presentation/enum/HttpStatusCode'
 import * as request from 'supertest'
 

@@ -1,5 +1,5 @@
 import { mockClassRepo } from 'app/models/ClassRepo/mock'
-import { mockClassCreaterParams } from 'domain/useCases/Class/ClassCreater/mock'
+import { mockClassCreaterParams } from 'domain/useCases/class/ClassCreater/mock'
 import { prismaMock } from 'infra/prisma/mock'
 import { PrismaClassCreaterRepo } from '.'
 

@@ -5,7 +5,7 @@ import { Class } from 'domain/models/Class'
 import {
   ClassDeleter,
   ClassDeleterParams,
-} from 'domain/useCases/Class/ClassDeleter'
+} from 'domain/useCases/class/ClassDeleter'
 import { DbClassModelAdapter } from '../../../adapters/DbClassAdapter'
 
 export class DbClassDeleter

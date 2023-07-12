@@ -3,7 +3,7 @@ import { mockClassCreaterRepo } from 'app/interfaces/class/ClassCreaterRepo/mock
 import { ClassRepo } from 'app/models/ClassRepo'
 import { mockClassRepo } from 'app/models/ClassRepo/mock'
 import { UnexpectedError } from 'domain/errors/UnexpectedError'
-import { mockClassCreaterParams } from 'domain/useCases/Class/ClassCreater/mock'
+import { mockClassCreaterParams } from 'domain/useCases/class/ClassCreater/mock'
 import { DbClassCreater } from '.'
 import { mockDbClassAdapter } from '../../../adapters/DbClassAdapter/mock'
 

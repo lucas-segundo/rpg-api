@@ -4,7 +4,7 @@ import { Class } from 'domain/models/Class'
 import {
   ClassReader,
   ClassReaderParams,
-} from 'domain/useCases/Class/ClassReader'
+} from 'domain/useCases/class/ClassReader'
 import { DbClassModelAdapter } from '../../../adapters/DbClassAdapter'
 
 export class DbClassReader extends DbClassModelAdapter implements ClassReader {

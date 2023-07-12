@@ -1,5 +1,5 @@
 import { mockSkillRepo } from 'app/models/SkillRepo/mock'
-import { mockSkillCreaterParams } from 'domain/useCases/Skill/SkillCreater/mock'
+import { mockSkillCreaterParams } from 'domain/useCases/skill/SkillCreater/mock'
 import { prismaMock } from 'infra/prisma/mock'
 import { PrismaSkillCreaterRepo } from '.'
 

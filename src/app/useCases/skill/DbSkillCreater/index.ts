@@ -4,7 +4,7 @@ import { Skill } from 'domain/models/Skill'
 import {
   SkillCreater,
   SkillCreaterParams,
-} from 'domain/useCases/Skill/SkillCreater'
+} from 'domain/useCases/skill/SkillCreater'
 import { DbSkillModelAdapter } from '../../../adapters/DbSkillAdapter'
 
 export class DbSkillCreater

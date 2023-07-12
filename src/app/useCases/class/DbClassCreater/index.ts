@@ -4,7 +4,7 @@ import { Class } from 'domain/models/Class'
 import {
   ClassCreater,
   ClassCreaterParams,
-} from 'domain/useCases/Class/ClassCreater'
+} from 'domain/useCases/class/ClassCreater'
 import { DbClassModelAdapter } from '../../../adapters/DbClassAdapter'
 
 export class DbClassCreater

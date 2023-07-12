@@ -3,7 +3,7 @@ import {
   ClassUpdater,
   ClassUpdaterIdentifier,
   ClassUpdaterParams,
-} from 'domain/useCases/Class/ClassUpdater'
+} from 'domain/useCases/class/ClassUpdater'
 import { HttpStatusCode } from 'presentation/enum/HttpStatusCode'
 import { Controller } from 'presentation/interfaces/Controller'
 import { HttpResponse, HttpErrorResponse } from 'presentation/interfaces/Http'

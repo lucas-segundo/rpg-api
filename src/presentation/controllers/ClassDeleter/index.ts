@@ -2,7 +2,7 @@ import { Class } from 'domain/models/Class'
 import {
   ClassDeleter,
   ClassDeleterParams,
-} from 'domain/useCases/Class/ClassDeleter'
+} from 'domain/useCases/class/ClassDeleter'
 import { HttpStatusCode } from 'presentation/enum/HttpStatusCode'
 import { Controller } from 'presentation/interfaces/Controller'
 import { HttpResponse, HttpErrorResponse } from 'presentation/interfaces/Http'
