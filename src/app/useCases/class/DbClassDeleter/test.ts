@@ -1,5 +1,5 @@
-import { ClassDeleterRepoParams } from 'app/interfaces/ClassDeleterRepo'
-import { mockClassDeleterRepo } from 'app/interfaces/ClassDeleterRepo/mock'
+import { ClassDeleterRepoParams } from 'app/interfaces/class/ClassDeleterRepo'
+import { mockClassDeleterRepo } from 'app/interfaces/class/ClassDeleterRepo/mock'
 import { mockClassRepo } from 'app/models/ClassRepo/mock'
 import { NotFoundError } from 'domain/errors/NotFound'
 import { UnexpectedError } from 'domain/errors/UnexpectedError'

@@ -1,4 +1,4 @@
-import { ClassUpdaterRepo } from 'app/interfaces/ClassUpdaterRepo'
+import { ClassUpdaterRepo } from 'app/interfaces/class/ClassUpdaterRepo'
 import { NotFoundError } from 'domain/errors/NotFound'
 import { UnexpectedError } from 'domain/errors/UnexpectedError'
 import { Class } from 'domain/models/Class'

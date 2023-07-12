@@ -1,5 +1,5 @@
-import { ClassUpdaterRepoParams } from 'app/interfaces/ClassUpdaterRepo'
-import { mockClassUpdaterRepo } from 'app/interfaces/ClassUpdaterRepo/mock'
+import { ClassUpdaterRepoParams } from 'app/interfaces/class/ClassUpdaterRepo'
+import { mockClassUpdaterRepo } from 'app/interfaces/class/ClassUpdaterRepo/mock'
 import { mockClassRepo } from 'app/models/ClassRepo/mock'
 import { NotFoundError } from 'domain/errors/NotFound'
 import { UnexpectedError } from 'domain/errors/UnexpectedError'

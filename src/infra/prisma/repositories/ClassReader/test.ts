@@ -1,4 +1,4 @@
-import { mockClassReaderRepoParams } from 'app/interfaces/ClassReaderRepo/mock'
+import { mockClassReaderRepoParams } from 'app/interfaces/class/ClassReaderRepo/mock'
 import { mockClassRepo } from 'app/models/ClassRepo/mock'
 import { prismaMock } from 'infra/prisma/mock'
 import { PrismaClassReaderRepo } from '.'

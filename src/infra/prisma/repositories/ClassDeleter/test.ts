@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker'
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library'
-import { mockClassDeleterRepoParams } from 'app/interfaces/ClassDeleterRepo/mock'
+import { mockClassDeleterRepoParams } from 'app/interfaces/class/ClassDeleterRepo/mock'
 import { mockClassRepo } from 'app/models/ClassRepo/mock'
 import { NotFoundError } from 'domain/errors/NotFound'
 import { prismaMock } from 'infra/prisma/mock'

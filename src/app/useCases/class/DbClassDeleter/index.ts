@@ -1,4 +1,4 @@
-import { ClassDeleterRepo } from 'app/interfaces/ClassDeleterRepo'
+import { ClassDeleterRepo } from 'app/interfaces/class/ClassDeleterRepo'
 import { NotFoundError } from 'domain/errors/NotFound'
 import { UnexpectedError } from 'domain/errors/UnexpectedError'
 import { Class } from 'domain/models/Class'

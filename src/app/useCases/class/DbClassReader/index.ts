@@ -1,4 +1,4 @@
-import { ClassReaderRepo } from 'app/interfaces/ClassReaderRepo'
+import { ClassReaderRepo } from 'app/interfaces/class/ClassReaderRepo'
 import { UnexpectedError } from 'domain/errors/UnexpectedError'
 import { Class } from 'domain/models/Class'
 import {

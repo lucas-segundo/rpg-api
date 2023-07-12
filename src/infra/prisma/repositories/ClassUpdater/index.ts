@@ -3,7 +3,7 @@ import {
   ClassUpdaterRepo,
   ClassUpdaterRepoParams,
   ClassUpdaterRepoIdentifier,
-} from 'app/interfaces/ClassUpdaterRepo'
+} from 'app/interfaces/class/ClassUpdaterRepo'
 import { ClassRepo } from 'app/models/ClassRepo'
 import { NotFoundError } from 'domain/errors/NotFound'
 

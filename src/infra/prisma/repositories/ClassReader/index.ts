@@ -1,7 +1,7 @@
 import {
   ClassReaderRepo,
   ClassReaderRepoParams,
-} from 'app/interfaces/ClassReaderRepo'
+} from 'app/interfaces/class/ClassReaderRepo'
 import { ClassRepo } from 'app/models/ClassRepo'
 
 import prisma from 'infra/prisma'

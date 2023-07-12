@@ -1,5 +1,5 @@
-import { ClassCreaterRepoParams } from 'app/interfaces/ClassCreaterRepo'
-import { mockClassCreaterRepo } from 'app/interfaces/ClassCreaterRepo/mock'
+import { ClassCreaterRepoParams } from 'app/interfaces/class/ClassCreaterRepo'
+import { mockClassCreaterRepo } from 'app/interfaces/class/ClassCreaterRepo/mock'
 import { ClassRepo } from 'app/models/ClassRepo'
 import { mockClassRepo } from 'app/models/ClassRepo/mock'
 import { UnexpectedError } from 'domain/errors/UnexpectedError'

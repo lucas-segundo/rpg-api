@@ -3,7 +3,7 @@ import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library'
 import {
   mockClassUpdaterRepoParams,
   mockClassUpdaterRepoIdentifier,
-} from 'app/interfaces/ClassUpdaterRepo/mock'
+} from 'app/interfaces/class/ClassUpdaterRepo/mock'
 import { mockClassRepo } from 'app/models/ClassRepo/mock'
 import { NotFoundError } from 'domain/errors/NotFound'
 import { prismaMock } from 'infra/prisma/mock'

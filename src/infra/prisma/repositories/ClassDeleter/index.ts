@@ -2,7 +2,7 @@ import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library'
 import {
   ClassDeleterRepo,
   ClassDeleterRepoParams,
-} from 'app/interfaces/ClassDeleterRepo'
+} from 'app/interfaces/class/ClassDeleterRepo'
 import { ClassRepo } from 'app/models/ClassRepo'
 import { NotFoundError } from 'domain/errors/NotFound'
 
