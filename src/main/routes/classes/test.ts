@@ -5,13 +5,13 @@ import { mockClassCreaterParams } from 'domain/useCases/class/ClassCreater/mock'
 import { mockClassDeleterParams } from 'domain/useCases/class/ClassDeleter/mock'
 import { mockClassReaderParams } from 'domain/useCases/class/ClassReader/mock'
 import { mockClassUpdaterParams } from 'domain/useCases/class/ClassUpdater/mock'
-import { ClassCreaterController } from 'presentation/controllers/ClassCreater'
-import { ClassDeleterController } from 'presentation/controllers/ClassDeleter'
-import { ClassReaderController } from 'presentation/controllers/ClassReader'
+import { ClassCreaterController } from 'presentation/controllers/class/ClassCreater'
+import { ClassDeleterController } from 'presentation/controllers/class/ClassDeleter'
+import { ClassReaderController } from 'presentation/controllers/class/ClassReader'
 import {
   ClassUpdaterController,
   ClassUpdaterControllerParams,
-} from 'presentation/controllers/ClassUpdater'
+} from 'presentation/controllers/class/ClassUpdater'
 import { HttpStatusCode } from 'presentation/enum/HttpStatusCode'
 import { HttpErrorResponse, HttpResponse } from 'presentation/interfaces/Http'
 import { mockExpressResponse } from '../utils/mockExpressResponse'

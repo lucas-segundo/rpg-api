@@ -1,4 +1,4 @@
-import { ClassReaderController } from 'presentation/controllers/ClassReader'
+import { ClassReaderController } from 'presentation/controllers/class/ClassReader'
 import { makeClassReader } from './useCase'
 import { makeClassReaderValidation } from './validation'
 

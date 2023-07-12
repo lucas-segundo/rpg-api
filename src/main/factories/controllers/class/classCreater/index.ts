@@ -1,4 +1,4 @@
-import { ClassCreaterController } from 'presentation/controllers/ClassCreater'
+import { ClassCreaterController } from 'presentation/controllers/class/ClassCreater'
 import { makeClassCreater } from './useCase'
 import { makeClassCreaterValidation } from './validation'
 

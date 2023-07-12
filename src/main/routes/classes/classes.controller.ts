@@ -9,10 +9,10 @@ import {
   Delete,
 } from '@nestjs/common'
 import { Response } from 'express'
-import { ClassCreaterController } from 'presentation/controllers/ClassCreater'
-import { ClassDeleterController } from 'presentation/controllers/ClassDeleter'
-import { ClassReaderController } from 'presentation/controllers/ClassReader'
-import { ClassUpdaterController } from 'presentation/controllers/ClassUpdater'
+import { ClassCreaterController } from 'presentation/controllers/class/ClassCreater'
+import { ClassDeleterController } from 'presentation/controllers/class/ClassDeleter'
+import { ClassReaderController } from 'presentation/controllers/class/ClassReader'
+import { ClassUpdaterController } from 'presentation/controllers/class/ClassUpdater'
 
 import { handleResponse } from '../utils/handleResponse'
 import { CreateClassDto } from './dto/CreateClass'

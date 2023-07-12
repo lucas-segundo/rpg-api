@@ -3,10 +3,10 @@ import { makeClassCreaterController } from 'main/factories/controllers/class/cla
 import { makeClassDeleterController } from 'main/factories/controllers/class/classDeleter'
 import { makeClassReaderController } from 'main/factories/controllers/class/classReader'
 import { makeClassUpdaterController } from 'main/factories/controllers/class/classUpdater'
-import { ClassCreaterController } from 'presentation/controllers/ClassCreater'
-import { ClassDeleterController } from 'presentation/controllers/ClassDeleter'
-import { ClassReaderController } from 'presentation/controllers/ClassReader'
-import { ClassUpdaterController } from 'presentation/controllers/ClassUpdater'
+import { ClassCreaterController } from 'presentation/controllers/class/ClassCreater'
+import { ClassDeleterController } from 'presentation/controllers/class/ClassDeleter'
+import { ClassReaderController } from 'presentation/controllers/class/ClassReader'
+import { ClassUpdaterController } from 'presentation/controllers/class/ClassUpdater'
 import { ClassesController } from './classes.controller'
 
 export const makeClassesModule = (): ModuleMetadata => ({

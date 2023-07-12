@@ -1,4 +1,4 @@
-import { ClassDeleterController } from 'presentation/controllers/ClassDeleter'
+import { ClassDeleterController } from 'presentation/controllers/class/ClassDeleter'
 import { makeClassDeleter } from './useCase'
 import { makeClassDeleterValidation } from './validation'
 

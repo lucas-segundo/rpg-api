@@ -1,4 +1,4 @@
-import { ClassUpdaterController } from 'presentation/controllers/ClassUpdater'
+import { ClassUpdaterController } from 'presentation/controllers/class/ClassUpdater'
 import { makeClassUpdater } from './useCase'
 import { makeClassUpdaterValidation } from './validation'
 
