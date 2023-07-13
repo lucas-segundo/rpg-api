@@ -18,9 +18,9 @@ export class DbClassDeleter
 
   async delete(params: ClassDeleterParams): Promise<Class> {
     try {
-      const classData = await this.ClassDeleterRepo.delete(params)
+      const data = await this.ClassDeleterRepo.delete(params)
 
-      return this.adapt(classData)
+      return this.adapt(data)
     } catch (error) {
       if (error instanceof NotFoundError) {
         throw error

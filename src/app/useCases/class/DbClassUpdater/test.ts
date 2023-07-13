@@ -47,11 +47,11 @@ describe('DbClassUpdater', () => {
     const repoResult = mockClassRepo()
     repo.update.mockResolvedValue(repoResult)
 
-    const classReaded = await sut.update(identifier, params)
+    const data = await sut.update(identifier, params)
 
-    const expectedClass = modelAdapter.adapt(repoResult)
+    const expectedData = modelAdapter.adapt(repoResult)
 
-    expect(classReaded).toEqual(expectedClass)
+    expect(data).toEqual(expectedData)
   })
 
   it('should throw unexpected error if something failed', async () => {

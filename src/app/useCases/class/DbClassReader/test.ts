@@ -38,11 +38,11 @@ describe('DbClassReader', () => {
     const repoResult = mockClassRepo()
     repo.read.mockResolvedValue(repoResult)
 
-    const classReaded = await sut.read(mockClassReaderParams())
+    const data = await sut.read(mockClassReaderParams())
 
-    const expectedClass = modelAdapter.adapt(repoResult)
+    const expectedData = modelAdapter.adapt(repoResult)
 
-    expect(classReaded).toEqual(expectedClass)
+    expect(data).toEqual(expectedData)
   })
 
   it('should throw unexpected error if something failed', async () => {

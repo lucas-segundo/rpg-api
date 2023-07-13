@@ -38,11 +38,11 @@ describe('DbSkillReader', () => {
     const repoResult = mockSkillRepo()
     repo.read.mockResolvedValue(repoResult)
 
-    const skillReaded = await sut.read(mockSkillReaderParams())
+    const data = await sut.read(mockSkillReaderParams())
 
-    const expectedSkill = modelAdapter.adapt(repoResult)
+    const expectedData = modelAdapter.adapt(repoResult)
 
-    expect(skillReaded).toEqual(expectedSkill)
+    expect(data).toEqual(expectedData)
   })
 
   it('should throw unexpected error if something failed', async () => {

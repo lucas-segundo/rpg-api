@@ -17,9 +17,9 @@ export class DbClassCreater
 
   async create(params: ClassCreaterParams): Promise<Class> {
     try {
-      const classData = await this.classCreaterRepo.create(params)
+      const data = await this.classCreaterRepo.create(params)
 
-      return this.adapt(classData)
+      return this.adapt(data)
     } catch (error) {
       throw new UnexpectedError()
     }

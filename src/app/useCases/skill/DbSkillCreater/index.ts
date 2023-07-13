@@ -17,9 +17,9 @@ export class DbSkillCreater
 
   async create(params: SkillCreaterParams): Promise<Skill> {
     try {
-      const skillData = await this.skillCreaterRepo.create(params)
+      const data = await this.skillCreaterRepo.create(params)
 
-      return this.adapt(skillData)
+      return this.adapt(data)
     } catch (error) {
       throw new UnexpectedError()
     }

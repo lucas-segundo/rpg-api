@@ -22,9 +22,9 @@ export class DbClassUpdater
     params: ClassUpdaterParams
   ): Promise<Class> {
     try {
-      const classData = await this.ClassUpdaterRepo.update(identifier, params)
+      const data = await this.ClassUpdaterRepo.update(identifier, params)
 
-      return this.adapt(classData)
+      return this.adapt(data)
     } catch (error) {
       if (error instanceof NotFoundError) {
         throw error

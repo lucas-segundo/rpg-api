@@ -42,11 +42,11 @@ describe('DbSkillCreater', () => {
 
     repo.create.mockResolvedValue(repoResult)
 
-    const skillCreated = await sut.create(mockSkillCreaterParams())
+    const data = await sut.create(mockSkillCreaterParams())
 
-    const expectedSkill = modelAdapter.adapt(repoResult)
+    const expectedData = modelAdapter.adapt(repoResult)
 
-    expect(skillCreated).toEqual(expectedSkill)
+    expect(data).toEqual(expectedData)
   })
 
   it('should throw unexpected error if something failed', async () => {

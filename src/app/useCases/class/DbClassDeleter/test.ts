@@ -42,11 +42,11 @@ describe('DbClassDeleter', () => {
     const repoResult = mockClassRepo()
     repo.delete.mockResolvedValue(repoResult)
 
-    const classData = await sut.delete(params)
+    const data = await sut.delete(params)
 
-    const expectedClass = modelAdapter.adapt(repoResult)
+    const expectedData = modelAdapter.adapt(repoResult)
 
-    expect(classData).toEqual(expectedClass)
+    expect(data).toEqual(expectedData)
   })
 
   it('should throw unexpected error if something failed', async () => {

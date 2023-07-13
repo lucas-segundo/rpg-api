@@ -42,11 +42,11 @@ describe('DbClassCreater', () => {
 
     repo.create.mockResolvedValue(repoResult)
 
-    const classCreated = await sut.create(mockClassCreaterParams())
+    const data = await sut.create(mockClassCreaterParams())
 
-    const expectedClass = modelAdapter.adapt(repoResult)
+    const expectedData = modelAdapter.adapt(repoResult)
 
-    expect(classCreated).toEqual(expectedClass)
+    expect(data).toEqual(expectedData)
   })
 
   it('should throw unexpected error if something failed', async () => {

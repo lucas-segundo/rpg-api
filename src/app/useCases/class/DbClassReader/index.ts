@@ -14,9 +14,9 @@ export class DbClassReader extends DbClassModelAdapter implements ClassReader {
 
   async read(params: ClassReaderParams): Promise<Class | null> {
     try {
-      const classData = await this.ClassReaderRepo.read(params)
+      const data = await this.ClassReaderRepo.read(params)
 
-      return classData && this.adapt(classData)
+      return data && this.adapt(data)
     } catch (error) {
       throw new UnexpectedError()
     }
