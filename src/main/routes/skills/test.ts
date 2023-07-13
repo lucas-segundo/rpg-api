@@ -8,10 +8,13 @@ import { HttpErrorResponse, HttpResponse } from 'presentation/interfaces/Http'
 import { mockExpressResponse } from '../utils/mockExpressResponse'
 import { SkillsController } from './skills.controller'
 import { makeSkillsModule } from './factory.module'
+import { mockSkillReaderParams } from 'domain/useCases/skill/SkillReader/mock'
+import { SkillReaderController } from 'presentation/controllers/skill/SkillReader'
 
 describe('SkillsController', () => {
   let controller: SkillsController
   let skillCreaterController: SkillCreaterController
+  let skillReaderController: SkillReaderController
 
   const makeMocks = () => {
     const createdResponse: HttpResponse = {
@@ -48,6 +51,7 @@ describe('SkillsController', () => {
 
     controller = module.get(SkillsController)
     skillCreaterController = module.get(SkillCreaterController)
+    skillReaderController = module.get(SkillReaderController)
   })
 
   describe('.create', () => {
@@ -79,6 +83,41 @@ describe('SkillsController', () => {
       handleMocked.mockResolvedValueOnce(errorResponse)
 
       await controller.create(mockSkillCreaterParams(), res)
+
+      expect(res.status).toBeCalledWith(errorResponse.statusCode)
+      expect(res.send).toBeCalledWith({ errors: errorResponse.errors })
+    })
+  })
+
+  describe('.read', () => {
+    it('should call with right params', async () => {
+      const params = mockSkillReaderParams()
+      const handleMocked = jest.spyOn(skillReaderController, 'handle')
+
+      await controller.readOne(params.id.toString(), mockExpressResponse())
+
+      expect(handleMocked).toBeCalledWith(params)
+    })
+
+    it('should response with right data', async () => {
+      const handleMocked = jest.spyOn(skillReaderController, 'handle')
+      const { okResponse, res } = makeMocks()
+
+      handleMocked.mockResolvedValueOnce(okResponse)
+
+      await controller.readOne(mockSkillReaderParams().id.toString(), res)
+
+      expect(res.status).toBeCalledWith(okResponse.statusCode)
+      expect(res.send).toBeCalledWith({ data: okResponse.data })
+    })
+
+    it('should response with right errors after it fails', async () => {
+      const handleMocked = jest.spyOn(skillReaderController, 'handle')
+      const { errorResponse, res } = makeMocks()
+
+      handleMocked.mockResolvedValueOnce(errorResponse)
+
+      await controller.readOne(mockSkillReaderParams().id.toString(), res)
 
       expect(res.status).toBeCalledWith(errorResponse.statusCode)
       expect(res.send).toBeCalledWith({ errors: errorResponse.errors })
