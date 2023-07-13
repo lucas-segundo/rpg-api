@@ -8,6 +8,8 @@ import {
   Patch,
   Delete,
 } from '@nestjs/common'
+import { ClassCreaterParams } from 'domain/useCases/class/ClassCreater'
+import { ClassUpdaterParams } from 'domain/useCases/class/ClassUpdater'
 import { Response } from 'express'
 import { ClassCreaterController } from 'presentation/controllers/class/ClassCreater'
 import { ClassDeleterController } from 'presentation/controllers/class/ClassDeleter'
@@ -15,8 +17,6 @@ import { ClassReaderController } from 'presentation/controllers/class/ClassReade
 import { ClassUpdaterController } from 'presentation/controllers/class/ClassUpdater'
 
 import { handleResponse } from '../utils/handleResponse'
-import { CreateClassDto } from './dto/CreateClass'
-import { UpdateClassDto } from './dto/UpdateClass'
 
 @Controller('classes')
 export class ClassesController {
@@ -28,8 +28,8 @@ export class ClassesController {
   ) {}
 
   @Post()
-  async create(@Body() createClassDto: CreateClassDto, @Res() res: Response) {
-    const result = await this.classCreaterController.handle(createClassDto)
+  async create(@Body() params: ClassCreaterParams, @Res() res: Response) {
+    const result = await this.classCreaterController.handle(params)
 
     return handleResponse(res, result)
   }
@@ -46,14 +46,14 @@ export class ClassesController {
   @Patch(':id')
   async update(
     @Param('id') id: string,
-    @Body() updateUserDto: UpdateClassDto,
+    @Body() params: ClassUpdaterParams,
     @Res() res: Response
   ) {
     const result = await this.classUpdaterController.handle({
       identifier: {
         id: Number(id),
       },
-      params: updateUserDto,
+      params,
     })
 
     return handleResponse(res, result)
