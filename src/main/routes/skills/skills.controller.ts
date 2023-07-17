@@ -21,7 +21,7 @@ export class SkillsController {
   }
 
   @Get(':id')
-  async readOne(@Param('id') id: string, @Res() res: Response) {
+  async read(@Param('id') id: string, @Res() res: Response) {
     const result = await this.skillReaderController.handle({
       id: Number(id),
     })

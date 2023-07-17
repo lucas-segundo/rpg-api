@@ -35,7 +35,7 @@ export class ClassesController {
   }
 
   @Get(':id')
-  async readOne(@Param('id') id: string, @Res() res: Response) {
+  async read(@Param('id') id: string, @Res() res: Response) {
     const result = await this.classReaderController.handle({
       id: Number(id),
     })

@@ -105,7 +105,7 @@ describe('ClassesController', () => {
       const params = mockClassReaderParams()
       const handleMocked = jest.spyOn(classReaderController, 'handle')
 
-      await controller.readOne(params.id.toString(), mockExpressResponse())
+      await controller.read(params.id.toString(), mockExpressResponse())
 
       expect(handleMocked).toBeCalledWith(params)
     })
@@ -116,7 +116,7 @@ describe('ClassesController', () => {
 
       handleMocked.mockResolvedValueOnce(okResponse)
 
-      await controller.readOne(mockClassReaderParams().id.toString(), res)
+      await controller.read(mockClassReaderParams().id.toString(), res)
 
       expect(res.status).toBeCalledWith(okResponse.statusCode)
       expect(res.send).toBeCalledWith({ data: okResponse.data })
@@ -128,7 +128,7 @@ describe('ClassesController', () => {
 
       handleMocked.mockResolvedValueOnce(errorResponse)
 
-      await controller.readOne(mockClassReaderParams().id.toString(), res)
+      await controller.read(mockClassReaderParams().id.toString(), res)
 
       expect(res.status).toBeCalledWith(errorResponse.statusCode)
       expect(res.send).toBeCalledWith({ errors: errorResponse.errors })
