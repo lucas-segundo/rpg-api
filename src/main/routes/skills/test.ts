@@ -10,11 +10,17 @@ import { SkillsController } from './skills.controller'
 import { makeSkillsModule } from './factory.module'
 import { mockSkillReaderParams } from 'domain/useCases/skill/SkillReader/mock'
 import { SkillReaderController } from 'presentation/controllers/skill/SkillReader'
+import {
+  SkillUpdaterController,
+  SkillUpdaterControllerParams,
+} from 'presentation/controllers/skill/SkillUpdater'
+import { mockSkillUpdaterParams } from 'domain/useCases/skill/SkillUpdater/mock'
 
 describe('SkillsController', () => {
   let controller: SkillsController
   let skillCreaterController: SkillCreaterController
   let skillReaderController: SkillReaderController
+  let skillUpdaterController: SkillUpdaterController
 
   const makeMocks = () => {
     const createdResponse: HttpResponse = {
@@ -52,6 +58,7 @@ describe('SkillsController', () => {
     controller = module.get(SkillsController)
     skillCreaterController = module.get(SkillCreaterController)
     skillReaderController = module.get(SkillReaderController)
+    skillUpdaterController = module.get(SkillUpdaterController)
   })
 
   describe('.create', () => {
@@ -118,6 +125,59 @@ describe('SkillsController', () => {
       handleMocked.mockResolvedValueOnce(errorResponse)
 
       await controller.read(mockSkillReaderParams().id.toString(), res)
+
+      expect(res.status).toBeCalledWith(errorResponse.statusCode)
+      expect(res.send).toBeCalledWith({ errors: errorResponse.errors })
+    })
+  })
+
+  describe('.update', () => {
+    it('should call with right params', async () => {
+      const identifier = faker.number.int()
+      const params = mockSkillUpdaterParams()
+      const handleMocked = jest.spyOn(skillUpdaterController, 'handle')
+
+      await controller.update(
+        identifier.toString(),
+        params,
+        mockExpressResponse()
+      )
+
+      const expectedParams: SkillUpdaterControllerParams = {
+        identifier: {
+          id: identifier,
+        },
+        params,
+      }
+
+      expect(handleMocked).toBeCalledWith(expectedParams)
+    })
+
+    it('should response with right data', async () => {
+      const identifier = faker.number.int()
+      const params = mockSkillUpdaterParams()
+      const handleMocked = jest.spyOn(skillUpdaterController, 'handle')
+
+      const { okResponse, res } = makeMocks()
+
+      handleMocked.mockResolvedValueOnce(okResponse)
+
+      await controller.update(identifier.toString(), params, res)
+
+      expect(res.status).toBeCalledWith(okResponse.statusCode)
+      expect(res.send).toBeCalledWith({ data: okResponse.data })
+    })
+
+    it('should response with right errors after it fails', async () => {
+      const identifier = faker.number.int()
+      const params = mockSkillUpdaterParams()
+      const handleMocked = jest.spyOn(skillUpdaterController, 'handle')
+
+      const { errorResponse, res } = makeMocks()
+
+      handleMocked.mockResolvedValueOnce(errorResponse)
+
+      await controller.update(identifier.toString(), params, res)
 
       expect(res.status).toBeCalledWith(errorResponse.statusCode)
       expect(res.send).toBeCalledWith({ errors: errorResponse.errors })
