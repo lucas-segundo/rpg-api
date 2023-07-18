@@ -15,12 +15,15 @@ import {
   SkillUpdaterControllerParams,
 } from 'presentation/controllers/skill/SkillUpdater'
 import { mockSkillUpdaterParams } from 'domain/useCases/skill/SkillUpdater/mock'
+import { mockSkillDeleterParams } from 'domain/useCases/skill/SkillDeleter/mock'
+import { SkillDeleterController } from 'presentation/controllers/skill/SkillDeleter'
 
 describe('SkillsController', () => {
   let controller: SkillsController
   let skillCreaterController: SkillCreaterController
   let skillReaderController: SkillReaderController
   let skillUpdaterController: SkillUpdaterController
+  let skillDeleterController: SkillDeleterController
 
   const makeMocks = () => {
     const createdResponse: HttpResponse = {
@@ -59,6 +62,7 @@ describe('SkillsController', () => {
     skillCreaterController = module.get(SkillCreaterController)
     skillReaderController = module.get(SkillReaderController)
     skillUpdaterController = module.get(SkillUpdaterController)
+    skillDeleterController = module.get(SkillDeleterController)
   })
 
   describe('.create', () => {
@@ -178,6 +182,41 @@ describe('SkillsController', () => {
       handleMocked.mockResolvedValueOnce(errorResponse)
 
       await controller.update(identifier.toString(), params, res)
+
+      expect(res.status).toBeCalledWith(errorResponse.statusCode)
+      expect(res.send).toBeCalledWith({ errors: errorResponse.errors })
+    })
+  })
+
+  describe('.delete', () => {
+    it('should call with right params', async () => {
+      const params = mockSkillDeleterParams()
+      const handleMocked = jest.spyOn(skillDeleterController, 'handle')
+
+      await controller.delete(params.id.toString(), mockExpressResponse())
+
+      expect(handleMocked).toBeCalledWith(params)
+    })
+
+    it('should response with right data', async () => {
+      const handleMocked = jest.spyOn(skillDeleterController, 'handle')
+      const { okResponse, res } = makeMocks()
+
+      handleMocked.mockResolvedValueOnce(okResponse)
+
+      await controller.delete(mockSkillDeleterParams().id.toString(), res)
+
+      expect(res.status).toBeCalledWith(okResponse.statusCode)
+      expect(res.send).toBeCalledWith({ data: okResponse.data })
+    })
+
+    it('should response with right errors after it fails', async () => {
+      const handleMocked = jest.spyOn(skillDeleterController, 'handle')
+      const { errorResponse, res } = makeMocks()
+
+      handleMocked.mockResolvedValueOnce(errorResponse)
+
+      await controller.delete(mockSkillDeleterParams().id.toString(), res)
 
       expect(res.status).toBeCalledWith(errorResponse.statusCode)
       expect(res.send).toBeCalledWith({ errors: errorResponse.errors })
