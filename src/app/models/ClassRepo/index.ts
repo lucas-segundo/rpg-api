@@ -1,4 +1,8 @@
-import { Class } from 'domain/models/Class'
 import { BaseData } from '../BaseData'
+import { ClassSkillRepo } from '../ClassSkillRepo'
 
-export interface ClassRepo extends Class, BaseData {}
+export interface ClassRepo extends BaseData {
+  id: number
+  title: string
+  classesSkills: Omit<ClassSkillRepo, 'class'>[]
+}

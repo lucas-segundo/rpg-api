@@ -15,6 +15,7 @@ export class PrismaClassDeleterRepo implements ClassDeleterRepo {
         where: {
           id: params.id,
         },
+        include: { classesSkills: { include: { skill: true } } },
       })
 
       return result

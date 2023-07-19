@@ -16,6 +16,7 @@ describe('PrismaClassCreaterRepo', () => {
       data: {
         title: params.title,
       },
+      include: { classesSkills: { include: { skill: true } } },
     })
   })
 

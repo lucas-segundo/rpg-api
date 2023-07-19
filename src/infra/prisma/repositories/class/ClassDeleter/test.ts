@@ -32,6 +32,7 @@ describe('PrismaClassDeleterRepo', () => {
       where: {
         id: params.id,
       },
+      include: { classesSkills: { include: { skill: true } } },
     })
   })
 

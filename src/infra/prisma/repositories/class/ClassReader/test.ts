@@ -16,6 +16,7 @@ describe('PrismaClassReaderRepo', () => {
       where: {
         id: params.id,
       },
+      include: { classesSkills: { include: { skill: true } } },
     })
   })
 

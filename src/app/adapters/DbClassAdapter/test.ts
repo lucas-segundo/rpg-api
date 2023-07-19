@@ -9,10 +9,13 @@ describe('DbClassModelAdapter', () => {
     const repoData = mockClassRepo()
     const model = sut.adapt(repoData)
 
-    const { id, title, deletedAt } = repoData
+    const { id, title, classesSkills, deletedAt } = repoData
+    const skills = sut.adaptToSkill(classesSkills)
+
     const expectedModel: Class = {
       id,
       title,
+      skills,
       deletedAt,
     }
 

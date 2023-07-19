@@ -37,6 +37,7 @@ describe('PrismaClassUpdaterRepo', () => {
         id: identifier.id,
       },
       data: params,
+      include: { classesSkills: { include: { skill: true } } },
     })
   })
 

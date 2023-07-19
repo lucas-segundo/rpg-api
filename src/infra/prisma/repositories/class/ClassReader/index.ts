@@ -12,6 +12,7 @@ export class PrismaClassReaderRepo implements ClassReaderRepo {
       where: {
         id,
       },
+      include: { classesSkills: { include: { skill: true } } },
     })
 
     return result

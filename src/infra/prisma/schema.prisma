@@ -8,21 +8,36 @@ datasource db {
 }
 
 model Class {
-  id        Int       @id @default(autoincrement())
-  title     String
-  createdAt DateTime  @default(now()) @map("created_at")
-  updatedAt DateTime  @updatedAt @map("updated_at")
-  deletedAt DateTime? @map("deleted_at")
+  id            Int             @id @default(autoincrement())
+  title         String
+  createdAt     DateTime        @default(now()) @map("created_at")
+  updatedAt     DateTime        @updatedAt @map("updated_at")
+  deletedAt     DateTime?       @map("deleted_at")
+  classesSkills ClassesSkills[]
 
   @@map("classes")
 }
 
 model Skill {
-  id        Int       @id @default(autoincrement())
-  title     String
+  id            Int             @id @default(autoincrement())
+  title         String
+  createdAt     DateTime        @default(now()) @map("created_at")
+  updatedAt     DateTime        @updatedAt @map("updated_at")
+  deletedAt     DateTime?       @map("deleted_at")
+  classesSkills ClassesSkills[]
+
+  @@map("skills")
+}
+
+model ClassesSkills {
+  class     Class     @relation(fields: [classId], references: [id])
+  classId   Int       @map("class_id")
+  skill     Skill     @relation(fields: [skillId], references: [id])
+  skillId   Int       @map("skill_id")
   createdAt DateTime  @default(now()) @map("created_at")
   updatedAt DateTime  @updatedAt @map("updated_at")
   deletedAt DateTime? @map("deleted_at")
 
-  @@map("skills")
+  @@id([classId, skillId])
+  @@map("classes_skills")
 }

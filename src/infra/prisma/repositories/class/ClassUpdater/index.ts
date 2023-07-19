@@ -20,6 +20,7 @@ export class PrismaClassUpdaterRepo implements ClassUpdaterRepo {
           id,
         },
         data: params,
+        include: { classesSkills: { include: { skill: true } } },
       })
 
       return result

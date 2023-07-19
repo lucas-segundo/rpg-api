@@ -12,6 +12,7 @@ export class PrismaClassCreaterRepo implements ClassCreaterRepo {
       data: {
         title,
       },
+      include: { classesSkills: { include: { skill: true } } },
     })
 
     return result
