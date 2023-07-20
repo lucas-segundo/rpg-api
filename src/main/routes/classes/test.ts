@@ -4,10 +4,12 @@ import { mockClass } from 'domain/models/Class/mock'
 import { mockClassCreaterParams } from 'domain/useCases/class/ClassCreater/mock'
 import { mockClassDeleterParams } from 'domain/useCases/class/ClassDeleter/mock'
 import { mockClassReaderParams } from 'domain/useCases/class/ClassReader/mock'
+import { mockClassSkillAdderParams } from 'domain/useCases/class/ClassSkillAdder/mock'
 import { mockClassUpdaterParams } from 'domain/useCases/class/ClassUpdater/mock'
 import { ClassCreaterController } from 'presentation/controllers/class/ClassCreater'
 import { ClassDeleterController } from 'presentation/controllers/class/ClassDeleter'
 import { ClassReaderController } from 'presentation/controllers/class/ClassReader'
+import { ClassSkillAdderController } from 'presentation/controllers/class/ClassSkillAdder'
 import {
   ClassUpdaterController,
   ClassUpdaterControllerParams,
@@ -24,6 +26,8 @@ describe('ClassesController', () => {
   let classReaderController: ClassReaderController
   let classUpdaterController: ClassUpdaterController
   let classDeleterController: ClassDeleterController
+
+  let classSkillAdderController: ClassSkillAdderController
 
   const makeMocks = () => {
     const createdResponse: HttpResponse = {
@@ -53,7 +57,7 @@ describe('ClassesController', () => {
     }
   }
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule(
       makeClassesModule()
     ).compile()
@@ -63,6 +67,8 @@ describe('ClassesController', () => {
     classReaderController = module.get(ClassReaderController)
     classUpdaterController = module.get(ClassUpdaterController)
     classDeleterController = module.get(ClassDeleterController)
+
+    classSkillAdderController = module.get(ClassSkillAdderController)
   })
 
   describe('.create', () => {
@@ -217,6 +223,56 @@ describe('ClassesController', () => {
       handleMocked.mockResolvedValueOnce(errorResponse)
 
       await controller.delete(mockClassDeleterParams().id.toString(), res)
+
+      expect(res.status).toBeCalledWith(errorResponse.statusCode)
+      expect(res.send).toBeCalledWith({ errors: errorResponse.errors })
+    })
+  })
+
+  describe('.addSkill', () => {
+    it('should call with right params', async () => {
+      const params = mockClassSkillAdderParams()
+      const handleMocked = jest.spyOn(classSkillAdderController, 'handle')
+
+      await controller.addSkill(
+        params.classId.toString(),
+        params.skillId.toString(),
+        mockExpressResponse()
+      )
+      expect(handleMocked).toBeCalledWith(params)
+    })
+
+    it('should response with right data', async () => {
+      const params = mockClassSkillAdderParams()
+      const handleMocked = jest.spyOn(classSkillAdderController, 'handle')
+
+      const { createdResponse, res } = makeMocks()
+
+      handleMocked.mockResolvedValueOnce(createdResponse)
+
+      await controller.addSkill(
+        params.classId.toString(),
+        params.skillId.toString(),
+        res
+      )
+
+      expect(res.status).toBeCalledWith(createdResponse.statusCode)
+      expect(res.send).toBeCalledWith({ data: createdResponse.data })
+    })
+
+    it('should response with right errors after it fails', async () => {
+      const params = mockClassSkillAdderParams()
+      const handleMocked = jest.spyOn(classSkillAdderController, 'handle')
+
+      const { errorResponse, res } = makeMocks()
+
+      handleMocked.mockResolvedValueOnce(errorResponse)
+
+      await controller.addSkill(
+        params.classId.toString(),
+        params.skillId.toString(),
+        res
+      )
 
       expect(res.status).toBeCalledWith(errorResponse.statusCode)
       expect(res.send).toBeCalledWith({ errors: errorResponse.errors })

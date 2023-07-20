@@ -2,10 +2,12 @@ import { ModuleMetadata } from '@nestjs/common'
 import { makeClassCreaterController } from 'main/factories/controllers/class/classCreater'
 import { makeClassDeleterController } from 'main/factories/controllers/class/classDeleter'
 import { makeClassReaderController } from 'main/factories/controllers/class/classReader'
+import { makeClassSkillAdderController } from 'main/factories/controllers/class/classSkillAdder'
 import { makeClassUpdaterController } from 'main/factories/controllers/class/classUpdater'
 import { ClassCreaterController } from 'presentation/controllers/class/ClassCreater'
 import { ClassDeleterController } from 'presentation/controllers/class/ClassDeleter'
 import { ClassReaderController } from 'presentation/controllers/class/ClassReader'
+import { ClassSkillAdderController } from 'presentation/controllers/class/ClassSkillAdder'
 import { ClassUpdaterController } from 'presentation/controllers/class/ClassUpdater'
 import { ClassesController } from './classes.controller'
 
@@ -27,6 +29,10 @@ export const makeClassesModule = (): ModuleMetadata => ({
     {
       provide: ClassDeleterController,
       useFactory: () => makeClassDeleterController(),
+    },
+    {
+      provide: ClassSkillAdderController,
+      useFactory: () => makeClassSkillAdderController(),
     },
   ],
 })
