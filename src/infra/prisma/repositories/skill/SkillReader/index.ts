@@ -1,13 +1,11 @@
-import {
-  SkillReaderRepo,
-  SkillReaderRepoParams,
-} from 'app/interfaces/skill/SkillReaderRepo'
-import { SkillRepo } from 'app/models/SkillRepo'
+import { SkillReaderRepo } from 'app/interfaces/skill/SkillReaderRepo'
+import { Skill } from 'domain/models/Skill'
+import { SkillReaderParams } from 'domain/useCases/skill/SkillReader'
 
 import prisma from 'infra/prisma'
 
 export class PrismaSkillReaderRepo implements SkillReaderRepo {
-  async read({ id }: SkillReaderRepoParams): Promise<SkillRepo | null> {
+  async read({ id }: SkillReaderParams): Promise<Skill | null> {
     const result = await prisma.skill.findFirst({
       where: {
         id,

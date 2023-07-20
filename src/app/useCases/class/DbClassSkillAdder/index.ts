@@ -5,21 +5,15 @@ import {
   ClassSkillAdder,
   ClassSkillAdderParams,
 } from 'domain/useCases/class/ClassSkillAdder'
-import { DbClassModelAdapter } from '../../../adapters/DbClassAdapter'
 
-export class DbClassSkillAdder
-  extends DbClassModelAdapter
-  implements ClassSkillAdder
-{
-  constructor(private readonly classSkillAdderRepo: ClassSkillAdderRepo) {
-    super()
-  }
+export class DbClassSkillAdder implements ClassSkillAdder {
+  constructor(private readonly classSkillAdderRepo: ClassSkillAdderRepo) {}
 
   async add(params: ClassSkillAdderParams): Promise<Class> {
     try {
       const data = await this.classSkillAdderRepo.add(params)
 
-      return this.adapt(data)
+      return data
     } catch (error) {
       throw new UnexpectedError()
     }

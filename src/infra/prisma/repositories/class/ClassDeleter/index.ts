@@ -1,15 +1,17 @@
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library'
-import {
-  ClassDeleterRepo,
-  ClassDeleterRepoParams,
-} from 'app/interfaces/class/ClassDeleterRepo'
-import { ClassRepo } from 'app/models/ClassRepo'
+import { ClassDeleterRepo } from 'app/interfaces/class/ClassDeleterRepo'
 import { NotFoundError } from 'domain/errors/NotFound'
+import { Class } from 'domain/models/Class'
+import { ClassDeleterParams } from 'domain/useCases/class/ClassDeleter'
 
 import prisma from 'infra/prisma'
+import { PrismaClassAdapter } from 'infra/prisma/adapters/ClassAdapter'
 
-export class PrismaClassDeleterRepo implements ClassDeleterRepo {
-  async delete(params: ClassDeleterRepoParams): Promise<ClassRepo> {
+export class PrismaClassDeleterRepo
+  extends PrismaClassAdapter
+  implements ClassDeleterRepo
+{
+  async delete(params: ClassDeleterParams): Promise<Class> {
     try {
       const result = await prisma.class.delete({
         where: {
@@ -18,7 +20,7 @@ export class PrismaClassDeleterRepo implements ClassDeleterRepo {
         include: { classesSkills: { include: { skill: true } } },
       })
 
-      return result
+      return this.adapt(result)
     } catch (error) {
       if (error instanceof PrismaClientKnownRequestError) {
         throw new NotFoundError('Class')

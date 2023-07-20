@@ -1,8 +1,6 @@
-import { SkillRepo } from 'app/models/SkillRepo'
+import { Skill } from 'domain/models/Skill'
 import { SkillDeleterParams } from 'domain/useCases/skill/SkillDeleter'
 
-export interface SkillDeleterRepoParams extends SkillDeleterParams {}
-
 export interface SkillDeleterRepo {
-  delete(params: SkillDeleterRepoParams): Promise<SkillRepo>
+  delete(params: SkillDeleterParams): Promise<Skill>
 }

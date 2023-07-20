@@ -6,21 +6,15 @@ import {
   SkillDeleter,
   SkillDeleterParams,
 } from 'domain/useCases/skill/SkillDeleter'
-import { DbSkillModelAdapter } from '../../../adapters/DbSkillAdapter'
 
-export class DbSkillDeleter
-  extends DbSkillModelAdapter
-  implements SkillDeleter
-{
-  constructor(private readonly skillDeleterRepo: SkillDeleterRepo) {
-    super()
-  }
+export class DbSkillDeleter implements SkillDeleter {
+  constructor(private readonly skillDeleterRepo: SkillDeleterRepo) {}
 
   async delete(params: SkillDeleterParams): Promise<Skill> {
     try {
       const data = await this.skillDeleterRepo.delete(params)
 
-      return this.adapt(data)
+      return data
     } catch (error) {
       if (error instanceof NotFoundError) {
         throw error

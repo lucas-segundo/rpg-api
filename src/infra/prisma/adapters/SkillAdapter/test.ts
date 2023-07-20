@@ -1,15 +1,22 @@
-import { mockSkillRepo } from 'app/models/SkillRepo/mock'
 import { Skill } from 'domain/models/Skill'
-import { mockDbSkillAdapter } from './mock'
+import { mockPrismaSkillResult } from 'infra/prisma/models/SkillResult/mock'
+import { PrismaSkillAdapter } from '.'
+
+const makeSut = () => {
+  class PrismaSkillAdapterMocked extends PrismaSkillAdapter {}
+
+  return new PrismaSkillAdapterMocked()
+}
 
 describe('DbSkillModelAdapter', () => {
   it('should adapt correctly', () => {
-    const sut = mockDbSkillAdapter()
+    const sut = makeSut()
 
-    const repoData = mockSkillRepo()
+    const repoData = mockPrismaSkillResult()
     const model = sut.adapt(repoData)
 
     const { id, title, deletedAt } = repoData
+
     const expectedModel: Skill = {
       id,
       title,

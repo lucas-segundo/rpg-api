@@ -1,48 +1,40 @@
-import { ClassReaderRepoParams } from 'app/interfaces/class/ClassReaderRepo'
 import { mockClassReaderRepo } from 'app/interfaces/class/ClassReaderRepo/mock'
-import { mockClassRepo } from 'app/models/ClassRepo/mock'
 import { UnexpectedError } from 'domain/errors/UnexpectedError'
+import { mockClass } from 'domain/models/Class/mock'
 import { mockClassReaderParams } from 'domain/useCases/class/ClassReader/mock'
 import { DbClassReader } from '.'
-import { mockDbClassAdapter } from '../../../adapters/DbClassAdapter/mock'
 
 const makeSut = () => {
   const repo = mockClassReaderRepo()
   const sut = new DbClassReader(repo)
-  const modelAdapter = mockDbClassAdapter()
+  const params = mockClassReaderParams()
+  const repoResult = mockClass()
 
   return {
     sut,
     repo,
-    modelAdapter,
+    repoResult,
+    params,
   }
 }
 
 describe('DbClassReader', () => {
   it('should call class reader repo with right params', async () => {
-    const { sut, repo } = makeSut()
+    const { sut, repo, params } = makeSut()
 
-    const params = mockClassReaderParams()
-    const repoParams: ClassReaderRepoParams = {
-      id: params.id,
-    }
+    await sut.read(params)
 
-    await sut.read(repoParams)
-
-    expect(repo.read).toBeCalledWith(repoParams)
+    expect(repo.read).toBeCalledWith(params)
   })
 
   it('should return class', async () => {
-    const { sut, repo, modelAdapter } = makeSut()
+    const { sut, repo, params, repoResult } = makeSut()
 
-    const repoResult = mockClassRepo()
     repo.read.mockResolvedValue(repoResult)
 
-    const data = await sut.read(mockClassReaderParams())
+    const data = await sut.read(params)
 
-    const expectedData = modelAdapter.adapt(repoResult)
-
-    expect(data).toEqual(expectedData)
+    expect(data).toEqual(repoResult)
   })
 
   it('should throw unexpected error if something failed', async () => {

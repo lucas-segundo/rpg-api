@@ -1,8 +1,6 @@
-import { ClassRepo } from 'app/models/ClassRepo'
+import { Class } from 'domain/models/Class'
 import { ClassDeleterParams } from 'domain/useCases/class/ClassDeleter'
 
-export interface ClassDeleterRepoParams extends ClassDeleterParams {}
-
 export interface ClassDeleterRepo {
-  delete(params: ClassDeleterRepoParams): Promise<ClassRepo>
+  delete(params: ClassDeleterParams): Promise<Class>
 }

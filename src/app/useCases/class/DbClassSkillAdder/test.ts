@@ -1,52 +1,42 @@
-import { ClassSkillAdderRepoParams } from 'app/interfaces/class/ClassSkillAdderRepo'
 import { mockClassSkillAdderRepo } from 'app/interfaces/class/ClassSkillAdderRepo/mock'
-import { ClassRepo } from 'app/models/ClassRepo'
-import { mockClassRepo } from 'app/models/ClassRepo/mock'
 import { UnexpectedError } from 'domain/errors/UnexpectedError'
+import { mockClass } from 'domain/models/Class/mock'
 import { mockClassSkillAdderParams } from 'domain/useCases/class/ClassSkillAdder/mock'
 import { DbClassSkillAdder } from '.'
-import { mockDbClassAdapter } from '../../../adapters/DbClassAdapter/mock'
 
 const makeSut = () => {
   const repo = mockClassSkillAdderRepo()
   const sut = new DbClassSkillAdder(repo)
-  const repoResult: ClassRepo = mockClassRepo()
-  const modelAdapter = mockDbClassAdapter()
+  const repoResult = mockClass()
+  const params = mockClassSkillAdderParams()
 
   return {
     sut,
     repo,
     repoResult,
-    modelAdapter,
+    params,
   }
 }
 
 describe('DbClassSkillAdder', () => {
   it('should call skill add repo with right params', async () => {
-    const { sut, repo, repoResult } = makeSut()
+    const { sut, repo, repoResult, params } = makeSut()
 
     repo.add.mockResolvedValue(repoResult)
 
-    const params = mockClassSkillAdderParams()
-    const repoParams: ClassSkillAdderRepoParams = {
-      ...params,
-    }
-
     await sut.add(params)
 
-    expect(repo.add).toBeCalledWith(repoParams)
+    expect(repo.add).toBeCalledWith(params)
   })
 
   it('should return skill added', async () => {
-    const { sut, repo, repoResult, modelAdapter } = makeSut()
+    const { sut, repo, repoResult } = makeSut()
 
     repo.add.mockResolvedValue(repoResult)
 
     const data = await sut.add(mockClassSkillAdderParams())
 
-    const expectedData = modelAdapter.adapt(repoResult)
-
-    expect(data).toEqual(expectedData)
+    expect(data).toEqual(repoResult)
   })
 
   it('should throw unexpected error if something failed', async () => {

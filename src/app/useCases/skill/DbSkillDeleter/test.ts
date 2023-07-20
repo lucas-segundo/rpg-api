@@ -1,16 +1,14 @@
-import { SkillDeleterRepoParams } from 'app/interfaces/skill/SkillDeleterRepo'
 import { mockSkillDeleterRepo } from 'app/interfaces/skill/SkillDeleterRepo/mock'
-import { mockSkillRepo } from 'app/models/SkillRepo/mock'
 import { NotFoundError } from 'domain/errors/NotFound'
 import { UnexpectedError } from 'domain/errors/UnexpectedError'
+import { mockSkill } from 'domain/models/Skill/mock'
 import { mockSkillDeleterParams } from 'domain/useCases/skill/SkillDeleter/mock'
 import { DbSkillDeleter } from '.'
-import { mockDbSkillAdapter } from '../../../adapters/DbSkillAdapter/mock'
 
 const makeSut = () => {
   const repo = mockSkillDeleterRepo()
   const params = mockSkillDeleterParams()
-  const modelAdapter = mockDbSkillAdapter()
+  const repoResult = mockSkill()
 
   const sut = new DbSkillDeleter(repo)
 
@@ -18,35 +16,29 @@ const makeSut = () => {
     sut,
     repo,
     params,
-    modelAdapter,
+    repoResult,
   }
 }
 
 describe('DbSkillDeleter', () => {
   it('should call skill Deleter repo with right params', async () => {
-    const { sut, repo, params } = makeSut()
+    const { sut, repo, params, repoResult } = makeSut()
 
-    repo.delete.mockResolvedValue(mockSkillRepo())
-    const repoParams: SkillDeleterRepoParams = {
-      ...params,
-    }
+    repo.delete.mockResolvedValue(repoResult)
 
-    await sut.delete(repoParams)
+    await sut.delete(params)
 
-    expect(repo.delete).toBeCalledWith(repoParams)
+    expect(repo.delete).toBeCalledWith(params)
   })
 
   it('should return skill', async () => {
-    const { sut, repo, params, modelAdapter } = makeSut()
+    const { sut, repo, params, repoResult } = makeSut()
 
-    const repoResult = mockSkillRepo()
     repo.delete.mockResolvedValue(repoResult)
 
     const data = await sut.delete(params)
 
-    const expectedData = modelAdapter.adapt(repoResult)
-
-    expect(data).toEqual(expectedData)
+    expect(data).toEqual(repoResult)
   })
 
   it('should throw unexpected error if something failed', async () => {

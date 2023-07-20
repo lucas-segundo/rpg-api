@@ -1,9 +1,6 @@
-import { SkillRepo } from 'app/models/SkillRepo'
-
-export interface SkillReaderRepoParams {
-  id: number
-}
+import { Skill } from 'domain/models/Skill'
+import { SkillReaderParams } from 'domain/useCases/skill/SkillReader'
 
 export interface SkillReaderRepo {
-  read(params: SkillReaderRepoParams): Promise<SkillRepo | null>
+  read(params: SkillReaderParams): Promise<Skill | null>
 }

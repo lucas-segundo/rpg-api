@@ -1,15 +1,26 @@
-import { mockSkillRepo } from 'app/models/SkillRepo/mock'
 import { mockSkillCreaterParams } from 'domain/useCases/skill/SkillCreater/mock'
 import { prismaMock } from 'infra/prisma/mock'
+import { mockPrismaSkillResult } from 'infra/prisma/models/SkillResult/mock'
 import { PrismaSkillCreaterRepo } from '.'
+
+const makeSut = () => {
+  const sut = new PrismaSkillCreaterRepo()
+  const skillRepo = mockPrismaSkillResult()
+  const params = mockSkillCreaterParams()
+
+  return {
+    sut,
+    skillRepo,
+    params,
+  }
+}
 
 describe('PrismaSkillCreaterRepo', () => {
   it('should call create with right params', async () => {
-    const sut = new PrismaSkillCreaterRepo()
+    const { sut, skillRepo, params } = makeSut()
 
-    prismaMock.skill.create.mockResolvedValue(mockSkillRepo())
+    prismaMock.skill.create.mockResolvedValue(skillRepo)
 
-    const params = mockSkillCreaterParams()
     await sut.create(params)
 
     expect(prismaMock.skill.create).toBeCalledWith({
@@ -20,14 +31,13 @@ describe('PrismaSkillCreaterRepo', () => {
   })
 
   it('should return skill created', async () => {
-    const sut = new PrismaSkillCreaterRepo()
+    const { sut, skillRepo, params } = makeSut()
 
-    const dbSkillCreated = mockSkillRepo()
-    prismaMock.skill.create.mockResolvedValue(dbSkillCreated)
+    prismaMock.skill.create.mockResolvedValue(skillRepo)
 
-    const params = mockSkillCreaterParams()
     const result = await sut.create(params)
 
-    expect(result).toEqual(dbSkillCreated)
+    const expectedResult = sut.adapt(skillRepo)
+    expect(result).toEqual(expectedResult)
   })
 })

@@ -1,10 +1,5 @@
-import { faker } from '@faker-js/faker'
-import { ClassDeleterRepo, ClassDeleterRepoParams } from '.'
+import { ClassDeleterRepo } from '.'
 
 export const mockClassDeleterRepo = (): jest.Mocked<ClassDeleterRepo> => ({
   delete: jest.fn(),
-})
-
-export const mockClassDeleterRepoParams = (): ClassDeleterRepoParams => ({
-  id: faker.number.int(),
 })

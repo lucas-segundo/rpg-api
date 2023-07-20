@@ -1,60 +1,50 @@
-import { SkillCreaterRepoParams } from 'app/interfaces/skill/SkillCreaterRepo'
 import { mockSkillCreaterRepo } from 'app/interfaces/skill/SkillCreaterRepo/mock'
-import { SkillRepo } from 'app/models/SkillRepo'
-import { mockSkillRepo } from 'app/models/SkillRepo/mock'
 import { UnexpectedError } from 'domain/errors/UnexpectedError'
+import { mockSkill } from 'domain/models/Skill/mock'
 import { mockSkillCreaterParams } from 'domain/useCases/skill/SkillCreater/mock'
 import { DbSkillCreater } from '.'
-import { mockDbSkillAdapter } from '../../../adapters/DbSkillAdapter/mock'
 
 const makeSut = () => {
   const repo = mockSkillCreaterRepo()
   const sut = new DbSkillCreater(repo)
-  const repoResult: SkillRepo = mockSkillRepo()
-  const modelAdapter = mockDbSkillAdapter()
+  const repoResult = mockSkill()
+  const params = mockSkillCreaterParams()
 
   return {
     sut,
     repo,
     repoResult,
-    modelAdapter,
+    params,
   }
 }
 
 describe('DbSkillCreater', () => {
   it('should call skill creater repo with right params', async () => {
-    const { sut, repo, repoResult } = makeSut()
+    const { sut, repo, repoResult, params } = makeSut()
 
     repo.create.mockResolvedValue(repoResult)
 
-    const params = mockSkillCreaterParams()
-    const repoParams: SkillCreaterRepoParams = {
-      title: params.title,
-    }
+    await sut.create(params)
 
-    await sut.create(repoParams)
-
-    expect(repo.create).toBeCalledWith(repoParams)
+    expect(repo.create).toBeCalledWith(params)
   })
 
   it('should return skill created', async () => {
-    const { sut, repo, repoResult, modelAdapter } = makeSut()
+    const { sut, repo, repoResult, params } = makeSut()
 
     repo.create.mockResolvedValue(repoResult)
 
-    const data = await sut.create(mockSkillCreaterParams())
+    const data = await sut.create(params)
 
-    const expectedData = modelAdapter.adapt(repoResult)
-
-    expect(data).toEqual(expectedData)
+    expect(data).toEqual(repoResult)
   })
 
   it('should throw unexpected error if something failed', async () => {
-    const { sut, repo } = makeSut()
+    const { sut, repo, params } = makeSut()
 
     repo.create.mockRejectedValue(new Error())
 
-    const promise = sut.create(mockSkillCreaterParams())
+    const promise = sut.create(params)
     await expect(promise).rejects.toBeInstanceOf(UnexpectedError)
   })
 })

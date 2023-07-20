@@ -1,19 +1,23 @@
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library'
-import {
-  ClassUpdaterRepo,
-  ClassUpdaterRepoParams,
-  ClassUpdaterRepoIdentifier,
-} from 'app/interfaces/class/ClassUpdaterRepo'
-import { ClassRepo } from 'app/models/ClassRepo'
+import { ClassUpdaterRepo } from 'app/interfaces/class/ClassUpdaterRepo'
 import { NotFoundError } from 'domain/errors/NotFound'
+import { Class } from 'domain/models/Class'
+import {
+  ClassUpdaterIdentifier,
+  ClassUpdaterParams,
+} from 'domain/useCases/class/ClassUpdater'
 
 import prisma from 'infra/prisma'
+import { PrismaClassAdapter } from 'infra/prisma/adapters/ClassAdapter'
 
-export class PrismaClassUpdaterRepo implements ClassUpdaterRepo {
+export class PrismaClassUpdaterRepo
+  extends PrismaClassAdapter
+  implements ClassUpdaterRepo
+{
   async update(
-    { id }: ClassUpdaterRepoIdentifier,
-    params: ClassUpdaterRepoParams
-  ): Promise<ClassRepo> {
+    { id }: ClassUpdaterIdentifier,
+    params: ClassUpdaterParams
+  ): Promise<Class> {
     try {
       const result = await prisma.class.update({
         where: {
@@ -23,7 +27,7 @@ export class PrismaClassUpdaterRepo implements ClassUpdaterRepo {
         include: { classesSkills: { include: { skill: true } } },
       })
 
-      return result
+      return this.adapt(result)
     } catch (error) {
       if (error instanceof PrismaClientKnownRequestError) {
         throw new NotFoundError('Class')

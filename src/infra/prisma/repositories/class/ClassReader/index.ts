@@ -1,13 +1,15 @@
-import {
-  ClassReaderRepo,
-  ClassReaderRepoParams,
-} from 'app/interfaces/class/ClassReaderRepo'
-import { ClassRepo } from 'app/models/ClassRepo'
+import { ClassReaderRepo } from 'app/interfaces/class/ClassReaderRepo'
+import { Class } from 'domain/models/Class'
+import { ClassReaderParams } from 'domain/useCases/class/ClassReader'
 
 import prisma from 'infra/prisma'
+import { PrismaClassAdapter } from 'infra/prisma/adapters/ClassAdapter'
 
-export class PrismaClassReaderRepo implements ClassReaderRepo {
-  async read({ id }: ClassReaderRepoParams): Promise<ClassRepo | null> {
+export class PrismaClassReaderRepo
+  extends PrismaClassAdapter
+  implements ClassReaderRepo
+{
+  async read({ id }: ClassReaderParams): Promise<Class | null> {
     const result = await prisma.class.findFirst({
       where: {
         id,
@@ -15,6 +17,6 @@ export class PrismaClassReaderRepo implements ClassReaderRepo {
       include: { classesSkills: { include: { skill: true } } },
     })
 
-    return result
+    return result && this.adapt(result)
   }
 }

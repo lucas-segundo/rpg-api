@@ -1,16 +1,16 @@
 import { faker } from '@faker-js/faker'
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library'
-import { mockClassDeleterRepoParams } from 'app/interfaces/class/ClassDeleterRepo/mock'
-import { mockClassRepo } from 'app/models/ClassRepo/mock'
 import { NotFoundError } from 'domain/errors/NotFound'
+import { mockClassDeleterParams } from 'domain/useCases/class/ClassDeleter/mock'
 import { prismaMock } from 'infra/prisma/mock'
+import { mockPrismaClassResult } from 'infra/prisma/models/ClassResult/mock'
 import { PrismaClassDeleterRepo } from '.'
 
 const makeSut = () => {
   const sut = new PrismaClassDeleterRepo()
 
-  const params = mockClassDeleterRepoParams()
-  const classRepo = mockClassRepo()
+  const params = mockClassDeleterParams()
+  const classRepo = mockPrismaClassResult()
 
   return {
     sut,
@@ -21,7 +21,9 @@ const makeSut = () => {
 
 describe('PrismaClassDeleterRepo', () => {
   it('should call delete with right params', async () => {
-    const { sut, params } = makeSut()
+    const { sut, params, classRepo } = makeSut()
+
+    prismaMock.class.delete.mockResolvedValue(classRepo)
 
     const date = faker.date.anytime()
     jest.useFakeTimers().setSystemTime(date)
@@ -43,7 +45,8 @@ describe('PrismaClassDeleterRepo', () => {
 
     const result = await sut.delete(params)
 
-    expect(result).toEqual(classRepo)
+    const expectedResult = sut.adapt(classRepo)
+    expect(result).toEqual(expectedResult)
   })
 
   it('should NotFoundError if it throw PrismaClientKnownRequestError', async () => {

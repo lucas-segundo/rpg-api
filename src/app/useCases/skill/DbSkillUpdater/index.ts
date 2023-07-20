@@ -7,15 +7,9 @@ import {
   SkillUpdaterIdentifier,
   SkillUpdaterParams,
 } from 'domain/useCases/skill/SkillUpdater'
-import { DbSkillModelAdapter } from '../../../adapters/DbSkillAdapter'
 
-export class DbSkillUpdater
-  extends DbSkillModelAdapter
-  implements SkillUpdater
-{
-  constructor(private readonly SkillUpdaterRepo: SkillUpdaterRepo) {
-    super()
-  }
+export class DbSkillUpdater implements SkillUpdater {
+  constructor(private readonly SkillUpdaterRepo: SkillUpdaterRepo) {}
 
   async update(
     identifier: SkillUpdaterIdentifier,
@@ -24,7 +18,7 @@ export class DbSkillUpdater
     try {
       const data = await this.SkillUpdaterRepo.update(identifier, params)
 
-      return this.adapt(data)
+      return data
     } catch (error) {
       if (error instanceof NotFoundError) {
         throw error

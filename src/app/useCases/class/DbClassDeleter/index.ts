@@ -6,21 +6,15 @@ import {
   ClassDeleter,
   ClassDeleterParams,
 } from 'domain/useCases/class/ClassDeleter'
-import { DbClassModelAdapter } from '../../../adapters/DbClassAdapter'
 
-export class DbClassDeleter
-  extends DbClassModelAdapter
-  implements ClassDeleter
-{
-  constructor(private readonly ClassDeleterRepo: ClassDeleterRepo) {
-    super()
-  }
+export class DbClassDeleter implements ClassDeleter {
+  constructor(private readonly ClassDeleterRepo: ClassDeleterRepo) {}
 
   async delete(params: ClassDeleterParams): Promise<Class> {
     try {
       const data = await this.ClassDeleterRepo.delete(params)
 
-      return this.adapt(data)
+      return data
     } catch (error) {
       if (error instanceof NotFoundError) {
         throw error

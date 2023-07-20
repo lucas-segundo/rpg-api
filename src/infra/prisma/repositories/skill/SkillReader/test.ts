@@ -1,15 +1,27 @@
-import { mockSkillReaderRepoParams } from 'app/interfaces/skill/SkillReaderRepo/mock'
-import { mockSkillRepo } from 'app/models/SkillRepo/mock'
+import { mockClassDeleterParams } from 'domain/useCases/class/ClassDeleter/mock'
 import { prismaMock } from 'infra/prisma/mock'
+import { mockPrismaSkillResult } from 'infra/prisma/models/SkillResult/mock'
 import { PrismaSkillReaderRepo } from '.'
+
+const makeSut = () => {
+  const sut = new PrismaSkillReaderRepo()
+
+  const params = mockClassDeleterParams()
+  const skillRepo = mockPrismaSkillResult()
+
+  return {
+    sut,
+    params,
+    skillRepo,
+  }
+}
 
 describe('PrismaSkillReaderRepo', () => {
   it('should call read with right params', async () => {
-    const sut = new PrismaSkillReaderRepo()
+    const { sut, params, skillRepo } = makeSut()
 
-    prismaMock.skill.create.mockResolvedValue(mockSkillRepo())
+    prismaMock.skill.create.mockResolvedValue(skillRepo)
 
-    const params = mockSkillReaderRepoParams()
     await sut.read(params)
 
     expect(prismaMock.skill.findFirst).toBeCalledWith({
@@ -20,12 +32,10 @@ describe('PrismaSkillReaderRepo', () => {
   })
 
   it('should return skill', async () => {
-    const sut = new PrismaSkillReaderRepo()
+    const { sut, params, skillRepo } = makeSut()
 
-    const skillRepo = mockSkillRepo()
     prismaMock.skill.findFirst.mockResolvedValue(skillRepo)
 
-    const params = mockSkillReaderRepoParams()
     const result = await sut.read(params)
 
     expect(result).toEqual(skillRepo)

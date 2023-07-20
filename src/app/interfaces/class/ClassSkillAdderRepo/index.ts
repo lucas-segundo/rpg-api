@@ -1,8 +1,6 @@
-import { ClassRepo } from 'app/models/ClassRepo'
+import { Class } from 'domain/models/Class'
 import { ClassSkillAdderParams } from 'domain/useCases/class/ClassSkillAdder'
 
-export interface ClassSkillAdderRepoParams extends ClassSkillAdderParams {}
-
 export interface ClassSkillAdderRepo {
-  add(params: ClassSkillAdderRepoParams): Promise<ClassRepo>
+  add(params: ClassSkillAdderParams): Promise<Class>
 }

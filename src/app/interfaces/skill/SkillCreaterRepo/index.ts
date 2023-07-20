@@ -1,9 +1,6 @@
-import { SkillRepo } from 'app/models/SkillRepo'
-
-export interface SkillCreaterRepoParams {
-  title: string
-}
+import { Skill } from 'domain/models/Skill'
+import { SkillCreaterParams } from 'domain/useCases/skill/SkillCreater'
 
 export interface SkillCreaterRepo {
-  create(params: SkillCreaterRepoParams): Promise<SkillRepo>
+  create(params: SkillCreaterParams): Promise<Skill>
 }

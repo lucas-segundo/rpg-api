@@ -5,21 +5,15 @@ import {
   ClassCreater,
   ClassCreaterParams,
 } from 'domain/useCases/class/ClassCreater'
-import { DbClassModelAdapter } from '../../../adapters/DbClassAdapter'
 
-export class DbClassCreater
-  extends DbClassModelAdapter
-  implements ClassCreater
-{
-  constructor(private readonly classCreaterRepo: ClassCreaterRepo) {
-    super()
-  }
+export class DbClassCreater implements ClassCreater {
+  constructor(private readonly classCreaterRepo: ClassCreaterRepo) {}
 
   async create(params: ClassCreaterParams): Promise<Class> {
     try {
       const data = await this.classCreaterRepo.create(params)
 
-      return this.adapt(data)
+      return data
     } catch (error) {
       throw new UnexpectedError()
     }

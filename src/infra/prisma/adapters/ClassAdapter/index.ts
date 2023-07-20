@@ -1,9 +1,9 @@
-import { ClassRepo } from 'app/models/ClassRepo'
 import { Class } from 'domain/models/Class'
 import { Skill } from 'domain/models/Skill'
+import { PrismaClassResult } from 'infra/prisma/models/ClassResult'
 
-export abstract class DbClassModelAdapter {
-  adapt({ id, title, classesSkills, deletedAt }: ClassRepo): Class {
+export abstract class PrismaClassAdapter {
+  adapt({ id, title, classesSkills, deletedAt }: PrismaClassResult): Class {
     return {
       id,
       title,
@@ -12,7 +12,9 @@ export abstract class DbClassModelAdapter {
     }
   }
 
-  adaptToSkill(classesSkills: ClassRepo['classesSkills']): Skill[] {
+  private adaptToSkill(
+    classesSkills: PrismaClassResult['classesSkills']
+  ): Skill[] {
     const skills = classesSkills.map(({ skill }): Skill => {
       const { id, title, deletedAt } = skill
 

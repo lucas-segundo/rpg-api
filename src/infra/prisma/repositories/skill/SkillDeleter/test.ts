@@ -1,16 +1,16 @@
 import { faker } from '@faker-js/faker'
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library'
-import { mockSkillDeleterRepoParams } from 'app/interfaces/skill/SkillDeleterRepo/mock'
-import { mockSkillRepo } from 'app/models/SkillRepo/mock'
 import { NotFoundError } from 'domain/errors/NotFound'
+import { mockSkillDeleterParams } from 'domain/useCases/skill/SkillDeleter/mock'
 import { prismaMock } from 'infra/prisma/mock'
+import { mockPrismaSkillResult } from 'infra/prisma/models/SkillResult/mock'
 import { PrismaSkillDeleterRepo } from '.'
 
 const makeSut = () => {
   const sut = new PrismaSkillDeleterRepo()
 
-  const params = mockSkillDeleterRepoParams()
-  const skillRepo = mockSkillRepo()
+  const params = mockSkillDeleterParams()
+  const skillRepo = mockPrismaSkillResult()
 
   return {
     sut,
@@ -21,7 +21,9 @@ const makeSut = () => {
 
 describe('PrismaSkillDeleterRepo', () => {
   it('should call delete with right params', async () => {
-    const { sut, params } = makeSut()
+    const { sut, params, skillRepo } = makeSut()
+
+    prismaMock.skill.delete.mockResolvedValue(skillRepo)
 
     const date = faker.date.anytime()
     jest.useFakeTimers().setSystemTime(date)
@@ -42,7 +44,8 @@ describe('PrismaSkillDeleterRepo', () => {
 
     const result = await sut.delete(params)
 
-    expect(result).toEqual(skillRepo)
+    const expectedResult = sut.adapt(skillRepo)
+    expect(result).toEqual(expectedResult)
   })
 
   it('should NotFoundError if it throw PrismaClientKnownRequestError', async () => {

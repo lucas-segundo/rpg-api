@@ -1,20 +1,18 @@
-import { ClassUpdaterRepoParams } from 'app/interfaces/class/ClassUpdaterRepo'
 import { mockClassUpdaterRepo } from 'app/interfaces/class/ClassUpdaterRepo/mock'
-import { mockClassRepo } from 'app/models/ClassRepo/mock'
 import { NotFoundError } from 'domain/errors/NotFound'
 import { UnexpectedError } from 'domain/errors/UnexpectedError'
+import { mockClass } from 'domain/models/Class/mock'
 import {
   mockClassUpdaterParams,
   mockClassUpdaterIdentifier,
 } from 'domain/useCases/class/ClassUpdater/mock'
 import { DbClassUpdater } from '.'
-import { mockDbClassAdapter } from '../../../adapters/DbClassAdapter/mock'
 
 const makeSut = () => {
   const repo = mockClassUpdaterRepo()
   const params = mockClassUpdaterParams()
   const identifier = mockClassUpdaterIdentifier()
-  const modelAdapter = mockDbClassAdapter()
+  const repoResult = mockClass()
 
   const sut = new DbClassUpdater(repo)
 
@@ -23,35 +21,29 @@ const makeSut = () => {
     repo,
     params,
     identifier,
-    modelAdapter,
+    repoResult,
   }
 }
 
 describe('DbClassUpdater', () => {
   it('should call class Updater repo with right params', async () => {
-    const { sut, repo, params, identifier } = makeSut()
+    const { sut, repo, params, identifier, repoResult } = makeSut()
 
-    repo.update.mockResolvedValue(mockClassRepo())
-    const repoParams: ClassUpdaterRepoParams = {
-      ...params,
-    }
+    repo.update.mockResolvedValue(repoResult)
 
-    await sut.update(identifier, repoParams)
+    await sut.update(identifier, params)
 
-    expect(repo.update).toBeCalledWith(identifier, repoParams)
+    expect(repo.update).toBeCalledWith(identifier, params)
   })
 
   it('should return class', async () => {
-    const { sut, repo, params, identifier, modelAdapter } = makeSut()
+    const { sut, repo, params, identifier, repoResult } = makeSut()
 
-    const repoResult = mockClassRepo()
     repo.update.mockResolvedValue(repoResult)
 
     const data = await sut.update(identifier, params)
 
-    const expectedData = modelAdapter.adapt(repoResult)
-
-    expect(data).toEqual(expectedData)
+    expect(data).toEqual(repoResult)
   })
 
   it('should throw unexpected error if something failed', async () => {

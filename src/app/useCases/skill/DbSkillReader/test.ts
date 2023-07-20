@@ -1,48 +1,40 @@
-import { SkillReaderRepoParams } from 'app/interfaces/skill/SkillReaderRepo'
 import { mockSkillReaderRepo } from 'app/interfaces/skill/SkillReaderRepo/mock'
-import { mockSkillRepo } from 'app/models/SkillRepo/mock'
 import { UnexpectedError } from 'domain/errors/UnexpectedError'
+import { mockSkill } from 'domain/models/Skill/mock'
 import { mockSkillReaderParams } from 'domain/useCases/skill/SkillReader/mock'
 import { DbSkillReader } from '.'
-import { mockDbSkillAdapter } from '../../../adapters/DbSkillAdapter/mock'
 
 const makeSut = () => {
   const repo = mockSkillReaderRepo()
+  const params = mockSkillReaderParams()
   const sut = new DbSkillReader(repo)
-  const modelAdapter = mockDbSkillAdapter()
+  const repoResult = mockSkill()
 
   return {
     sut,
     repo,
-    modelAdapter,
+    repoResult,
+    params,
   }
 }
 
 describe('DbSkillReader', () => {
   it('should call skill reader repo with right params', async () => {
-    const { sut, repo } = makeSut()
+    const { sut, repo, params } = makeSut()
 
-    const params = mockSkillReaderParams()
-    const repoParams: SkillReaderRepoParams = {
-      id: params.id,
-    }
+    await sut.read(params)
 
-    await sut.read(repoParams)
-
-    expect(repo.read).toBeCalledWith(repoParams)
+    expect(repo.read).toBeCalledWith(params)
   })
 
   it('should return skill', async () => {
-    const { sut, repo, modelAdapter } = makeSut()
+    const { sut, repo, repoResult } = makeSut()
 
-    const repoResult = mockSkillRepo()
     repo.read.mockResolvedValue(repoResult)
 
     const data = await sut.read(mockSkillReaderParams())
 
-    const expectedData = modelAdapter.adapt(repoResult)
-
-    expect(data).toEqual(expectedData)
+    expect(data).toEqual(repoResult)
   })
 
   it('should throw unexpected error if something failed', async () => {

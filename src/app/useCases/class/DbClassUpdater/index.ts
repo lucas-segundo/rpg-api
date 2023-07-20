@@ -7,15 +7,9 @@ import {
   ClassUpdaterIdentifier,
   ClassUpdaterParams,
 } from 'domain/useCases/class/ClassUpdater'
-import { DbClassModelAdapter } from '../../../adapters/DbClassAdapter'
 
-export class DbClassUpdater
-  extends DbClassModelAdapter
-  implements ClassUpdater
-{
-  constructor(private readonly ClassUpdaterRepo: ClassUpdaterRepo) {
-    super()
-  }
+export class DbClassUpdater implements ClassUpdater {
+  constructor(private readonly ClassUpdaterRepo: ClassUpdaterRepo) {}
 
   async update(
     identifier: ClassUpdaterIdentifier,
@@ -24,7 +18,7 @@ export class DbClassUpdater
     try {
       const data = await this.ClassUpdaterRepo.update(identifier, params)
 
-      return this.adapt(data)
+      return data
     } catch (error) {
       if (error instanceof NotFoundError) {
         throw error

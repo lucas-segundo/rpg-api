@@ -1,20 +1,20 @@
 import { faker } from '@faker-js/faker'
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library'
-import {
-  mockClassUpdaterRepoParams,
-  mockClassUpdaterRepoIdentifier,
-} from 'app/interfaces/class/ClassUpdaterRepo/mock'
-import { mockClassRepo } from 'app/models/ClassRepo/mock'
 import { NotFoundError } from 'domain/errors/NotFound'
+import {
+  mockClassUpdaterIdentifier,
+  mockClassUpdaterParams,
+} from 'domain/useCases/class/ClassUpdater/mock'
 import { prismaMock } from 'infra/prisma/mock'
+import { mockPrismaClassResult } from 'infra/prisma/models/ClassResult/mock'
 import { PrismaClassUpdaterRepo } from '.'
 
 const makeSut = () => {
   const sut = new PrismaClassUpdaterRepo()
 
-  const params = mockClassUpdaterRepoParams()
-  const identifier = mockClassUpdaterRepoIdentifier()
-  const classRepo = mockClassRepo()
+  const params = mockClassUpdaterParams()
+  const identifier = mockClassUpdaterIdentifier()
+  const classRepo = mockPrismaClassResult()
 
   return {
     sut,
@@ -28,7 +28,7 @@ describe('PrismaClassUpdaterRepo', () => {
   it('should call update with right params', async () => {
     const { sut, params, identifier, classRepo } = makeSut()
 
-    prismaMock.class.create.mockResolvedValue(classRepo)
+    prismaMock.class.update.mockResolvedValue(classRepo)
 
     await sut.update(identifier, params)
 
@@ -48,7 +48,8 @@ describe('PrismaClassUpdaterRepo', () => {
 
     const result = await sut.update(identifier, params)
 
-    expect(result).toEqual(classRepo)
+    const expectedResult = sut.adapt(classRepo)
+    expect(result).toEqual(expectedResult)
   })
 
   it('should NotFoundError if it throw PrismaClientKnownRequestError', async () => {

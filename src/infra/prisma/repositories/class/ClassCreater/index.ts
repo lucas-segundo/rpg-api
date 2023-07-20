@@ -1,13 +1,15 @@
-import {
-  ClassCreaterRepo,
-  ClassCreaterRepoParams,
-} from 'app/interfaces/class/ClassCreaterRepo'
-import { ClassRepo } from 'app/models/ClassRepo'
+import { ClassCreaterRepo } from 'app/interfaces/class/ClassCreaterRepo'
+import { Class } from 'domain/models/Class'
+import { ClassCreaterParams } from 'domain/useCases/class/ClassCreater'
 
 import prisma from 'infra/prisma'
+import { PrismaClassAdapter } from 'infra/prisma/adapters/ClassAdapter'
 
-export class PrismaClassCreaterRepo implements ClassCreaterRepo {
-  async create({ title }: ClassCreaterRepoParams): Promise<ClassRepo> {
+export class PrismaClassCreaterRepo
+  extends PrismaClassAdapter
+  implements ClassCreaterRepo
+{
+  async create({ title }: ClassCreaterParams): Promise<Class> {
     const result = await prisma.class.create({
       data: {
         title,
@@ -15,6 +17,6 @@ export class PrismaClassCreaterRepo implements ClassCreaterRepo {
       include: { classesSkills: { include: { skill: true } } },
     })
 
-    return result
+    return this.adapt(result)
   }
 }

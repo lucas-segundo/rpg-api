@@ -1,9 +1,6 @@
-import { ClassRepo } from 'app/models/ClassRepo'
-
-export interface ClassCreaterRepoParams {
-  title: string
-}
+import { Class } from 'domain/models/Class'
+import { ClassCreaterParams } from 'domain/useCases/class/ClassCreater'
 
 export interface ClassCreaterRepo {
-  create(params: ClassCreaterRepoParams): Promise<ClassRepo>
+  create(params: ClassCreaterParams): Promise<Class>
 }

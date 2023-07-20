@@ -1,15 +1,27 @@
-import { mockClassReaderRepoParams } from 'app/interfaces/class/ClassReaderRepo/mock'
-import { mockClassRepo } from 'app/models/ClassRepo/mock'
+import { mockClassReaderParams } from 'domain/useCases/class/ClassReader/mock'
 import { prismaMock } from 'infra/prisma/mock'
+import { mockPrismaClassResult } from 'infra/prisma/models/ClassResult/mock'
 import { PrismaClassReaderRepo } from '.'
+
+const makeSut = () => {
+  const sut = new PrismaClassReaderRepo()
+
+  const params = mockClassReaderParams()
+  const classRepo = mockPrismaClassResult()
+
+  return {
+    sut,
+    params,
+    classRepo,
+  }
+}
 
 describe('PrismaClassReaderRepo', () => {
   it('should call read with right params', async () => {
-    const sut = new PrismaClassReaderRepo()
+    const { sut, params } = makeSut()
 
-    prismaMock.class.create.mockResolvedValue(mockClassRepo())
+    prismaMock.class.create.mockResolvedValue(mockPrismaClassResult())
 
-    const params = mockClassReaderRepoParams()
     await sut.read(params)
 
     expect(prismaMock.class.findFirst).toBeCalledWith({
@@ -21,14 +33,13 @@ describe('PrismaClassReaderRepo', () => {
   })
 
   it('should return class', async () => {
-    const sut = new PrismaClassReaderRepo()
+    const { sut, params, classRepo } = makeSut()
 
-    const classRepo = mockClassRepo()
     prismaMock.class.findFirst.mockResolvedValue(classRepo)
 
-    const params = mockClassReaderRepoParams()
     const result = await sut.read(params)
 
-    expect(result).toEqual(classRepo)
+    const expectedResult = sut.adapt(classRepo)
+    expect(result).toEqual(expectedResult)
   })
 })

@@ -1,20 +1,20 @@
 import { faker } from '@faker-js/faker'
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library'
-import {
-  mockSkillUpdaterRepoParams,
-  mockSkillUpdaterRepoIdentifier,
-} from 'app/interfaces/skill/SkillUpdaterRepo/mock'
-import { mockSkillRepo } from 'app/models/SkillRepo/mock'
 import { NotFoundError } from 'domain/errors/NotFound'
+import {
+  mockSkillUpdaterIdentifier,
+  mockSkillUpdaterParams,
+} from 'domain/useCases/skill/SkillUpdater/mock'
 import { prismaMock } from 'infra/prisma/mock'
+import { mockPrismaSkillResult } from 'infra/prisma/models/SkillResult/mock'
 import { PrismaSkillUpdaterRepo } from '.'
 
 const makeSut = () => {
   const sut = new PrismaSkillUpdaterRepo()
 
-  const params = mockSkillUpdaterRepoParams()
-  const identifier = mockSkillUpdaterRepoIdentifier()
-  const skillRepo = mockSkillRepo()
+  const params = mockSkillUpdaterParams()
+  const identifier = mockSkillUpdaterIdentifier()
+  const skillRepo = mockPrismaSkillResult()
 
   return {
     sut,
@@ -26,7 +26,9 @@ const makeSut = () => {
 
 describe('PrismaSkillUpdaterRepo', () => {
   it('should call update with right params', async () => {
-    const { sut, params, identifier } = makeSut()
+    const { sut, params, identifier, skillRepo } = makeSut()
+
+    prismaMock.skill.update.mockResolvedValue(skillRepo)
 
     await sut.update(identifier, params)
 
@@ -45,7 +47,8 @@ describe('PrismaSkillUpdaterRepo', () => {
 
     const result = await sut.update(identifier, params)
 
-    expect(result).toEqual(skillRepo)
+    const expectedResult = sut.adapt(skillRepo)
+    expect(result).toEqual(expectedResult)
   })
 
   it('should NotFoundError if it throw PrismaClientKnownRequestError', async () => {

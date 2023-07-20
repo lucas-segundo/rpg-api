@@ -1,16 +1,14 @@
-import { ClassDeleterRepoParams } from 'app/interfaces/class/ClassDeleterRepo'
 import { mockClassDeleterRepo } from 'app/interfaces/class/ClassDeleterRepo/mock'
-import { mockClassRepo } from 'app/models/ClassRepo/mock'
 import { NotFoundError } from 'domain/errors/NotFound'
 import { UnexpectedError } from 'domain/errors/UnexpectedError'
+import { mockClass } from 'domain/models/Class/mock'
 import { mockClassDeleterParams } from 'domain/useCases/class/ClassDeleter/mock'
 import { DbClassDeleter } from '.'
-import { mockDbClassAdapter } from '../../../adapters/DbClassAdapter/mock'
 
 const makeSut = () => {
   const repo = mockClassDeleterRepo()
   const params = mockClassDeleterParams()
-  const modelAdapter = mockDbClassAdapter()
+  const repoResult = mockClass()
 
   const sut = new DbClassDeleter(repo)
 
@@ -18,35 +16,29 @@ const makeSut = () => {
     sut,
     repo,
     params,
-    modelAdapter,
+    repoResult,
   }
 }
 
 describe('DbClassDeleter', () => {
   it('should call class Deleter repo with right params', async () => {
-    const { sut, repo, params } = makeSut()
+    const { sut, repo, params, repoResult } = makeSut()
 
-    repo.delete.mockResolvedValue(mockClassRepo())
-    const repoParams: ClassDeleterRepoParams = {
-      ...params,
-    }
+    repo.delete.mockResolvedValue(repoResult)
 
-    await sut.delete(repoParams)
+    await sut.delete(params)
 
-    expect(repo.delete).toBeCalledWith(repoParams)
+    expect(repo.delete).toBeCalledWith(params)
   })
 
   it('should return class', async () => {
-    const { sut, repo, params, modelAdapter } = makeSut()
+    const { sut, repo, params, repoResult } = makeSut()
 
-    const repoResult = mockClassRepo()
     repo.delete.mockResolvedValue(repoResult)
 
     const data = await sut.delete(params)
 
-    const expectedData = modelAdapter.adapt(repoResult)
-
-    expect(data).toEqual(expectedData)
+    expect(data).toEqual(repoResult)
   })
 
   it('should throw unexpected error if something failed', async () => {
